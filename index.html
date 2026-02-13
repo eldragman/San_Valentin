@@ -23,56 +23,29 @@ body{
     color:white;
 }
 
-/* Corazones flotando */
-.heart-bg{
-    position:absolute;
-    width:20px;
-    height:20px;
-    background:red;
-    transform:rotate(45deg);
-    animation:float 6s linear infinite;
-    opacity:0.4;
-}
-.heart-bg::before,
-.heart-bg::after{
-    content:'';
-    position:absolute;
-    width:20px;
-    height:20px;
-    background:red;
-    border-radius:50%;
-}
-.heart-bg::before{ top:-10px; left:0; }
-.heart-bg::after{ left:-10px; top:0; }
-
-@keyframes float{
-    0%{ transform:translateY(100vh) rotate(45deg); opacity:0;}
-    50%{ opacity:0.6;}
-    100%{ transform:translateY(-10vh) rotate(45deg); opacity:0;}
-}
-
-/* Card elegante */
+/* CARD */
 .card{
     position:relative;
     padding:50px;
     border-radius:25px;
     backdrop-filter:blur(15px);
     background:rgba(255,255,255,0.2);
-    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    box-shadow:0 20px 50px rgba(0,0,0,0.3);
     text-align:center;
-    animation:fadeIn 1.5s ease;
+    animation:fadeIn 1.2s ease;
     width:90%;
-    max-width:400px;
+    max-width:420px;
 }
 
 @keyframes fadeIn{
-    from{opacity:0; transform:translateY(30px);}
+    from{opacity:0; transform:translateY(40px);}
     to{opacity:1; transform:translateY(0);}
 }
 
 h1{
     font-size:24px;
-    margin-bottom:20px;
+    margin-bottom:25px;
+    transition:0.4s;
 }
 
 button{
@@ -106,14 +79,27 @@ button{
     display:none;
 }
 
-.success{
-    animation:pop 0.8s ease forwards;
+/* FINAL EPICO */
+.final-message{
+    font-size:28px;
+    animation:zoomIn 1s ease forwards;
 }
 
-@keyframes pop{
-    0%{transform:scale(0);}
-    80%{transform:scale(1.1);}
-    100%{transform:scale(1);}
+@keyframes zoomIn{
+    0%{transform:scale(0); opacity:0;}
+    100%{transform:scale(1); opacity:1;}
+}
+
+/* EXPLOSION CORAZONES */
+.explosion-heart{
+    position:fixed;
+    font-size:24px;
+    animation:explode 1s ease forwards;
+}
+
+@keyframes explode{
+    0%{transform:translate(0,0) scale(1); opacity:1;}
+    100%{transform:translate(var(--x),var(--y)) scale(2); opacity:0;}
 }
 </style>
 </head>
@@ -124,33 +110,27 @@ button{
     <h1 id="pregunta">¿Quieres ser mi San Valentín? 💘</h1>
 
     <div id="botones">
-        <button class="yes" onclick="primeraRespuesta()">Sí 💖</button>
+        <button class="yes" id="yesBtn">Sí 💖</button>
         <button class="no" id="noBtn">No 😢</button>
     </div>
 
     <div id="final" class="hidden">
-        <h1 class="success">Entonces prepárate… 😍💍</h1>
-        <p>Porque este San Valentín será inolvidable ✨</p>
+        <h1 class="final-message">😍 Sabía que dirías que sí 💍</h1>
+        <p>Prepárate para un San Valentín inolvidable ✨</p>
     </div>
 </div>
 
 <script>
 
-/* Corazones */
-function crearCorazon(){
-    const heart = document.createElement("div");
-    heart.classList.add("heart-bg");
-    heart.style.left = Math.random()*100+"vw";
-    heart.style.animationDuration = (Math.random()*3+3)+"s";
-    document.body.appendChild(heart);
+let etapa = 1;
 
-    setTimeout(()=>{ heart.remove(); },6000);
-}
-setInterval(crearCorazon,500);
-
-/* Botón NO que se mueve al hacer click */
+const pregunta = document.getElementById("pregunta");
+const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
+const botones = document.getElementById("botones");
+const final = document.getElementById("final");
 
+/* BOTON NO QUE HUYE AL CLICK */
 noBtn.addEventListener("click", function(e){
     e.preventDefault();
     const maxX = window.innerWidth - 100;
@@ -161,22 +141,46 @@ noBtn.addEventListener("click", function(e){
     noBtn.style.top = Math.random()*maxY+"px";
 });
 
-/* Primera respuesta */
-function primeraRespuesta(){
-    document.getElementById("pregunta").innerText =
-    "¿Estás segura? 😅 A pesar de que te haga renegar mucho";
+/* BOTON SI CON DOBLE CONFIRMACION */
+yesBtn.addEventListener("click", function(){
 
-    document.querySelector(".yes").innerText = "Muy segura 💕";
-}
+    if(etapa === 1){
+        pregunta.innerText = "¿Estás segura? 😅 A pesar de que te haga renegar mucho";
+        yesBtn.innerText = "Muy segura 💕";
+        etapa = 2;
+        return;
+    }
 
-/* Segunda respuesta */
-document.querySelector(".yes").addEventListener("click", function(){
-    if(this.innerText === "Muy segura 💕"){
-        document.getElementById("botones").classList.add("hidden");
-        document.getElementById("pregunta").classList.add("hidden");
-        document.getElementById("final").classList.remove("hidden");
+    if(etapa === 2){
+        botones.classList.add("hidden");
+        pregunta.classList.add("hidden");
+        final.classList.remove("hidden");
+        lanzarExplosion();
+        etapa = 3;
     }
 });
+
+/* EXPLOSION DE CORAZONES */
+function lanzarExplosion(){
+    for(let i=0;i<40;i++){
+        const heart = document.createElement("div");
+        heart.classList.add("explosion-heart");
+        heart.innerHTML="❤️";
+
+        heart.style.left="50%";
+        heart.style.top="50%";
+
+        const randomX = (Math.random()*400-200)+"px";
+        const randomY = (Math.random()*400-200)+"px";
+
+        heart.style.setProperty("--x",randomX);
+        heart.style.setProperty("--y",randomY);
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{heart.remove();},1000);
+    }
+}
 
 </script>
 
