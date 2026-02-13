@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>San Valentín</title>
+<title>San Valentín 💘</title>
 
 <style>
 
@@ -13,13 +13,19 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:linear-gradient(135deg,#ff6fa5,#ff99c8);
+    background:linear-gradient(-45deg,#ff4e8a,#ff99c8,#ff6fa5);
+    background-size:400% 400%;
+    animation:fondo 10s ease infinite;
     font-family:Arial, Helvetica, sans-serif;
     overflow:hidden;
     color:white;
 }
 
-/* CONTENIDO PRINCIPAL */
+@keyframes fondo{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
 .container{
     text-align:center;
@@ -62,7 +68,7 @@ button{
     position:absolute;
 }
 
-/* FINAL LIMPIO */
+/* FINAL */
 
 .final-screen{
     position:fixed;
@@ -70,48 +76,62 @@ button{
     display:flex;
     justify-content:center;
     align-items:center;
+    flex-direction:column;
     background:linear-gradient(135deg,#ff4e8a,#ff99c8);
 }
 
-/* FLOR CELESTE */
+.final-title{
+    font-size:40px;
+    font-weight:bold;
+    margin-bottom:20px;
+    animation:zoom 1.5s ease forwards;
+}
+
+@keyframes zoom{
+    0%{transform:scale(0.5);opacity:0;}
+    100%{transform:scale(1);opacity:1;}
+}
+
+/* FLOR REALISTA */
 
 .flower{
-    width:150px;
-    height:150px;
     position:relative;
-    animation:florecer 2.5s ease forwards;
+    width:220px;
+    height:220px;
+    opacity:0;
+    transform:scale(0.5);
+    transition:2s ease;
 }
 
 /* pétalos */
 .petal{
-    width:60px;
-    height:100px;
-    background:#8ed6ff;
     position:absolute;
-    top:25px;
-    left:45px;
+    width:80px;
+    height:140px;
+    background:radial-gradient(circle at 50% 30%, #b3e5fc, #4fc3f7);
     border-radius:50% 50% 0 0;
+    top:40px;
+    left:70px;
     transform-origin:bottom center;
-    opacity:0;
+    transform:scaleY(0);
 }
 
 /* centro */
 .center{
-    width:40px;
-    height:40px;
-    background:#4fc3f7;
-    border-radius:50%;
     position:absolute;
-    top:55px;
-    left:55px;
+    width:60px;
+    height:60px;
+    background:radial-gradient(circle,#4fc3f7,#0288d1);
+    border-radius:50%;
+    top:80px;
+    left:80px;
     opacity:0;
 }
 
-/* Animación de florecer */
-@keyframes florecer{
-    0%{transform:scale(0.2); opacity:0;}
-    60%{transform:scale(1.1);}
-    100%{transform:scale(1); opacity:1;}
+/* leve movimiento natural */
+@keyframes respirar{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.05);}
 }
 
 </style>
@@ -119,16 +139,15 @@ button{
 <body>
 
 <div class="container" id="main">
-    <h1>¿Quieres ser mi San Valentín?</h1>
-    <button id="yesBtn">Sí</button>
-    <button id="noBtn">No</button>
+    <h1>💘 ¿Quieres ser mi San Valentín? 💘</h1>
+    <button id="yesBtn">Sí 💕</button>
+    <button id="noBtn">No 😢</button>
 </div>
 
 <script>
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
-const main = document.getElementById("main");
 
 let confirmacion = 0;
 
@@ -148,50 +167,60 @@ yesBtn.addEventListener("click", function(){
 
     if(confirmacion === 0){
         document.querySelector("h1").innerText =
-        "¿Estás segura? A pesar que te haga renegar mucho";
+        "😏 ¿Estás segura? A pesar que te haga renegar mucho";
         confirmacion++;
     }
     else{
-        mostrarFlor();
+        mostrarFinal();
     }
 
 });
 
-/* FINAL CON FLOR */
-
-function mostrarFlor(){
+function mostrarFinal(){
 
     document.body.innerHTML = `
         <div class="final-screen">
-            <div class="flower">
-                <div class="petal" style="transform:rotate(0deg);"></div>
-                <div class="petal" style="transform:rotate(60deg);"></div>
-                <div class="petal" style="transform:rotate(120deg);"></div>
-                <div class="petal" style="transform:rotate(180deg);"></div>
-                <div class="petal" style="transform:rotate(240deg);"></div>
-                <div class="petal" style="transform:rotate(300deg);"></div>
+            <div class="final-title">
+                😍 Sabía que dirías que sí 💍
+            </div>
+            <div class="flower" id="flower">
+                <div class="petal" style="transform:rotate(0deg) scaleY(0);"></div>
+                <div class="petal" style="transform:rotate(60deg) scaleY(0);"></div>
+                <div class="petal" style="transform:rotate(120deg) scaleY(0);"></div>
+                <div class="petal" style="transform:rotate(180deg) scaleY(0);"></div>
+                <div class="petal" style="transform:rotate(240deg) scaleY(0);"></div>
+                <div class="petal" style="transform:rotate(300deg) scaleY(0);"></div>
                 <div class="center"></div>
             </div>
         </div>
     `;
 
-    /* animar pétalos uno por uno */
+    // Esperar 15 segundos antes de florecer
+    setTimeout(animarFlor,15000);
+}
+
+function animarFlor(){
+
+    const flower = document.getElementById("flower");
     const petals = document.querySelectorAll(".petal");
     const center = document.querySelector(".center");
 
-    petals.forEach((petal, index)=>{
+    flower.style.opacity="1";
+    flower.style.transform="scale(1)";
+
+    petals.forEach((petal,index)=>{
         setTimeout(()=>{
-            petal.style.opacity="1";
-            petal.style.transition="1s";
-            petal.style.transform += " scale(1)";
-        }, index * 200);
+            petal.style.transition="1.5s ease";
+            petal.style.transform =
+            petal.style.transform.replace("scaleY(0)","scaleY(1)");
+        }, index*300);
     });
 
     setTimeout(()=>{
-        center.style.opacity="1";
         center.style.transition="1s";
-    }, 1200);
-
+        center.style.opacity="1";
+        flower.style.animation="respirar 4s infinite";
+    },2000);
 }
 
 </script>
