@@ -32,23 +32,23 @@ body{
 }
 
 h1{
-    font-size:34px;
-    margin-bottom:30px;
+    font-size:42px; /* más grande */
+    margin-bottom:40px;
     animation:latido 2s infinite;
 }
 
 @keyframes latido{
     0%,100%{transform:scale(1);}
-    50%{transform:scale(1.05);}
+    50%{transform:scale(1.06);}
 }
 
 button{
-    padding:12px 30px;
-    font-size:18px;
+    padding:15px 35px;
+    font-size:20px;
     border:none;
-    border-radius:30px;
+    border-radius:40px;
     cursor:pointer;
-    margin:10px;
+    margin:15px;
     transition:0.3s;
 }
 
@@ -81,9 +81,9 @@ button{
 }
 
 .final-title{
-    font-size:42px;
+    font-size:50px; /* más grande */
     font-weight:bold;
-    margin-bottom:30px;
+    margin-bottom:40px;
     animation:zoom 1.5s ease forwards;
 }
 
@@ -92,52 +92,61 @@ button{
     100%{transform:scale(1);opacity:1;}
 }
 
-/* FLOR GRANDE */
+/* ROSA */
 
 .flower{
     position:relative;
-    width:400px;
+    width:420px;
     height:520px;
     opacity:0;
-    transform:scale(0.6);
+    transform:scale(0.5);
     transition:2s ease;
 }
 
-/* pétalos */
+/* pétalos base */
 .petal{
     position:absolute;
-    width:150px;
-    height:220px;
+    width:140px;
+    height:200px;
     background:radial-gradient(circle at 50% 30%, #b3e5fc, #0288d1);
-    border-radius:60% 60% 0 0;
-    top:80px;
-    left:125px;
+    border-radius:70% 70% 40% 40%;
+    top:100px;
+    left:140px;
     transform-origin:bottom center;
-    transform:scaleY(0);
-    box-shadow:0 15px 25px rgba(0,0,0,0.3);
+    opacity:0;
+    box-shadow:0 15px 25px rgba(0,0,0,0.25);
+}
+
+/* pétalos internos más pequeños */
+.inner{
+    width:100px;
+    height:150px;
+    top:130px;
+    left:160px;
+    background:radial-gradient(circle at 50% 30%, #e1f5fe, #4fc3f7);
 }
 
 /* centro */
 .center{
     position:absolute;
-    width:110px;
-    height:110px;
+    width:80px;
+    height:80px;
     background:radial-gradient(circle,#4fc3f7,#01579b);
     border-radius:50%;
     top:170px;
-    left:145px;
+    left:170px;
     opacity:0;
-    box-shadow:0 0 35px rgba(0,150,255,0.7);
+    box-shadow:0 0 30px rgba(0,150,255,0.7);
 }
 
 /* tallo */
 .stem{
     position:absolute;
-    width:16px;
+    width:18px;
     height:260px;
     background:linear-gradient(#2e7d32,#1b5e20);
     top:260px;
-    left:192px;
+    left:200px;
     transform:scaleY(0);
     transform-origin:top;
 }
@@ -145,8 +154,8 @@ button{
 /* base */
 .base{
     position:absolute;
-    width:280px;
-    height:45px;
+    width:300px;
+    height:50px;
     background:#2b2b2b;
     border-radius:50%;
     bottom:0;
@@ -156,9 +165,9 @@ button{
 /* cúpula */
 .glass{
     position:absolute;
-    width:360px;
-    height:460px;
-    border-radius:180px 180px 40px 40px;
+    width:380px;
+    height:470px;
+    border-radius:200px 200px 40px 40px;
     border:3px solid rgba(255,255,255,0.4);
     top:20px;
     left:20px;
@@ -188,18 +197,16 @@ const yesBtn = document.getElementById("yesBtn");
 
 let confirmacion = 0;
 
-/* BOTÓN NO QUE SE MUEVE */
 noBtn.addEventListener("mouseover", moverNo);
 noBtn.addEventListener("click", moverNo);
 
 function moverNo(){
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
+    const x = Math.random() * (window.innerWidth - 140);
+    const y = Math.random() * (window.innerHeight - 70);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
 
-/* DOBLE CONFIRMACIÓN */
 yesBtn.addEventListener("click", function(){
 
     if(confirmacion === 0){
@@ -223,12 +230,18 @@ function mostrarFinal(){
             <div class="flower" id="flower">
                 <div class="glass"></div>
 
-                <div class="petal" style="transform:rotate(0deg) scaleY(0);"></div>
-                <div class="petal" style="transform:rotate(60deg) scaleY(0);"></div>
-                <div class="petal" style="transform:rotate(120deg) scaleY(0);"></div>
-                <div class="petal" style="transform:rotate(180deg) scaleY(0);"></div>
-                <div class="petal" style="transform:rotate(240deg) scaleY(0);"></div>
-                <div class="petal" style="transform:rotate(300deg) scaleY(0);"></div>
+                <!-- pétalos internos -->
+                <div class="petal inner" style="transform:rotate(0deg) scale(0.2);"></div>
+                <div class="petal inner" style="transform:rotate(60deg) scale(0.2);"></div>
+                <div class="petal inner" style="transform:rotate(120deg) scale(0.2);"></div>
+
+                <!-- pétalos externos -->
+                <div class="petal" style="transform:rotate(0deg) scale(0.2);"></div>
+                <div class="petal" style="transform:rotate(60deg) scale(0.2);"></div>
+                <div class="petal" style="transform:rotate(120deg) scale(0.2);"></div>
+                <div class="petal" style="transform:rotate(180deg) scale(0.2);"></div>
+                <div class="petal" style="transform:rotate(240deg) scale(0.2);"></div>
+                <div class="petal" style="transform:rotate(300deg) scale(0.2);"></div>
 
                 <div class="center"></div>
                 <div class="stem"></div>
@@ -237,10 +250,10 @@ function mostrarFinal(){
         </div>
     `;
 
-    setTimeout(animarFlor,15000);
+    setTimeout(animarRosa,8000); // ahora 8 segundos
 }
 
-function animarFlor(){
+function animarRosa(){
 
     const flower = document.getElementById("flower");
     const petals = document.querySelectorAll(".petal");
@@ -250,22 +263,20 @@ function animarFlor(){
     flower.style.opacity="1";
     flower.style.transform="scale(1)";
 
-    // tallo primero
     setTimeout(()=>{
         stem.style.transition="1.5s ease";
         stem.style.transform="scaleY(1)";
-    },800);
+    },500);
 
-    // pétalos progresivos
     petals.forEach((petal,index)=>{
         setTimeout(()=>{
             petal.style.transition="2s ease";
+            petal.style.opacity="1";
             petal.style.transform =
-            petal.style.transform.replace("scaleY(0)","scaleY(1)");
-        },1800 + index*500);
+            petal.style.transform.replace("scale(0.2)","scale(1)");
+        },1500 + index*400);
     });
 
-    // centro y respiración
     setTimeout(()=>{
         center.style.transition="1.5s ease";
         center.style.opacity="1";
