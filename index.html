@@ -3,183 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¿Quieres ser mi San Valentín?</title>
+<title>San Valentín 💘</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
 
 body{
+    margin:0;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    background:linear-gradient(135deg,#ff4e8a,#ff99c8);
+    background:linear-gradient(-45deg,#ff4e8a,#ff99c8,#ff4e8a,#ff6fa5);
+    background-size:400% 400%;
+    animation:fondo 10s ease infinite;
+    font-family:Arial, Helvetica, sans-serif;
     overflow:hidden;
     color:white;
 }
 
-/* CARD */
-.card{
-    position:relative;
-    padding:50px;
-    border-radius:25px;
-    backdrop-filter:blur(15px);
-    background:rgba(255,255,255,0.2);
-    box-shadow:0 20px 50px rgba(0,0,0,0.3);
-    text-align:center;
-    animation:fadeIn 1.2s ease;
-    width:90%;
-    max-width:420px;
+@keyframes fondo{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(40px);}
-    to{opacity:1; transform:translateY(0);}
+.container{
+    text-align:center;
+    animation:entrada 1.2s ease forwards;
+}
+
+@keyframes entrada{
+    from{opacity:0; transform:scale(0.8);}
+    to{opacity:1; transform:scale(1);}
 }
 
 h1{
-    font-size:24px;
-    margin-bottom:25px;
-    transition:0.4s;
+    font-size:35px;
+    margin-bottom:30px;
+    animation:latido 2s infinite;
+}
+
+@keyframes latido{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.05);}
 }
 
 button{
-    padding:12px 28px;
+    padding:12px 30px;
+    font-size:18px;
     border:none;
     border-radius:30px;
-    font-size:16px;
     cursor:pointer;
-    transition:0.3s;
     margin:10px;
+    transition:0.3s;
 }
 
-.yes{
+#yesBtn{
     background:white;
     color:#ff4e8a;
     font-weight:bold;
 }
 
-.yes:hover{
+#yesBtn:hover{
     transform:scale(1.1);
-    box-shadow:0 0 20px white;
 }
 
-.no{
-    background:#ffffff55;
+#noBtn{
+    background:#ff2e63;
     color:white;
     position:absolute;
 }
 
-.hidden{
-    display:none;
+/* FINAL ROMÁNTICO */
+
+.final-container{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff4e8a,#ff99c8);
+    flex-direction:column;
+    animation:fadeFinal 1s ease forwards;
 }
 
-/* FINAL EPICO */
-.final-message{
-    font-size:28px;
-    animation:zoomIn 1s ease forwards;
+@keyframes fadeFinal{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
-@keyframes zoomIn{
-    0%{transform:scale(0); opacity:0;}
+.final-title{
+    font-size:40px;
+    font-weight:bold;
+    text-align:center;
+    animation:romanticZoom 1.2s ease forwards;
+    z-index:2;
+}
+
+@keyframes romanticZoom{
+    0%{transform:scale(0.5); opacity:0;}
+    60%{transform:scale(1.1);}
     100%{transform:scale(1); opacity:1;}
 }
 
-/* EXPLOSION CORAZONES */
-.explosion-heart{
+.heart, .flower{
     position:fixed;
     font-size:24px;
-    animation:explode 1s ease forwards;
+    animation:floatUp linear infinite;
 }
 
-@keyframes explode{
-    0%{transform:translate(0,0) scale(1); opacity:1;}
-    100%{transform:translate(var(--x),var(--y)) scale(2); opacity:0;}
+@keyframes floatUp{
+    0%{
+        transform:translateY(100vh) rotate(0deg);
+        opacity:0;
+    }
+    30%{opacity:1;}
+    100%{
+        transform:translateY(-10vh) rotate(360deg);
+        opacity:0;
+    }
 }
+
 </style>
 </head>
-
 <body>
 
-<div class="card">
-    <h1 id="pregunta">¿Quieres ser mi San Valentín? 💘</h1>
-
-    <div id="botones">
-        <button class="yes" id="yesBtn">Sí 💖</button>
-        <button class="no" id="noBtn">No 😢</button>
-    </div>
-
-    <div id="final" class="hidden">
-        <h1 class="final-message">😍 Sabía que dirías que sí 💍</h1>
-        <p>Prepárate para un San Valentín inolvidable ✨</p>
-    </div>
+<div class="container" id="main">
+    <h1>💘 ¿Quieres ser mi San Valentín? 💘</h1>
+    <button id="yesBtn">Sí 💕</button>
+    <button id="noBtn">No 😢</button>
 </div>
 
 <script>
 
-let etapa = 1;
-
-const pregunta = document.getElementById("pregunta");
-const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const botones = document.getElementById("botones");
-const final = document.getElementById("final");
+const yesBtn = document.getElementById("yesBtn");
+const main = document.getElementById("main");
 
-/* BOTON NO QUE HUYE AL CLICK */
-noBtn.addEventListener("click", function(e){
-    e.preventDefault();
-    const maxX = window.innerWidth - 100;
-    const maxY = window.innerHeight - 50;
+let confirmacion = 0;
 
-    noBtn.style.position="fixed";
-    noBtn.style.left = Math.random()*maxX+"px";
-    noBtn.style.top = Math.random()*maxY+"px";
-});
+/* BOTÓN NO QUE SE MUEVE */
+noBtn.addEventListener("mouseover", moverNo);
+noBtn.addEventListener("click", moverNo);
 
-/* BOTON SI CON DOBLE CONFIRMACION */
+function moverNo(){
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+/* BOTÓN SÍ CON DOBLE CONFIRMACIÓN */
 yesBtn.addEventListener("click", function(){
 
-    if(etapa === 1){
-        pregunta.innerText = "¿Estás segura? 😅 A pesar de que te haga renegar mucho";
-        yesBtn.innerText = "Muy segura 💕";
-        etapa = 2;
-        return;
+    if(confirmacion === 0){
+        document.querySelector("h1").innerText =
+        "😏 ¿Estás segura? A pesar que te haga renegar mucho";
+        confirmacion++;
+    }
+    else{
+        lanzarFinalRomantico();
     }
 
-    if(etapa === 2){
-        botones.classList.add("hidden");
-        pregunta.classList.add("hidden");
-        final.classList.remove("hidden");
-        lanzarExplosion();
-        etapa = 3;
-    }
 });
 
-/* EXPLOSION DE CORAZONES */
-function lanzarExplosion(){
-    for(let i=0;i<40;i++){
-        const heart = document.createElement("div");
-        heart.classList.add("explosion-heart");
-        heart.innerHTML="❤️";
+function lanzarFinalRomantico(){
 
-        heart.style.left="50%";
-        heart.style.top="50%";
+    document.body.innerHTML = `
+        <div class="final-container">
+            <div class="final-title">
+                😍 Sabía que dirías que sí 💍
+            </div>
+        </div>
+    `;
 
-        const randomX = (Math.random()*400-200)+"px";
-        const randomY = (Math.random()*400-200)+"px";
+    setInterval(()=>{
+        crearElemento("❤️","heart");
+        crearElemento("🌸","flower");
+    },300);
+}
 
-        heart.style.setProperty("--x",randomX);
-        heart.style.setProperty("--y",randomY);
+function crearElemento(simbolo,clase){
+    const el = document.createElement("div");
+    el.classList.add(clase);
+    el.innerHTML = simbolo;
+    el.style.left = Math.random()*100+"vw";
+    el.style.animationDuration = (Math.random()*3+3)+"s";
+    document.body.appendChild(el);
 
-        document.body.appendChild(heart);
-
-        setTimeout(()=>{heart.remove();},1000);
-    }
+    setTimeout(()=>{el.remove();},5000);
 }
 
 </script>
