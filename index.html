@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Quieres ser mi San Valentín?</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff4e8a, #ff99c8);
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+    }
+
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        position: relative;
+        max-width: 400px;
+    }
+
+    h1 {
+        color: #ff4e8a;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #555;
+        margin-bottom: 30px;
+    }
+
+    .buttons {
+        position: relative;
+    }
+
+    button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin: 10px;
+    }
+
+    .yes {
+        background: #ff4e8a;
+        color: white;
+    }
+
+    .yes:hover {
+        background: #ff2f75;
+        transform: scale(1.1);
+    }
+
+    .no {
+        background: #ccc;
+        position: absolute;
+    }
+
+    .heart {
+        font-size: 50px;
+        animation: latido 1s infinite;
+    }
+
+    @keyframes latido {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="heart">❤️</div>
+    <h1>¿Quieres ser mi San Valentín?</h1>
+    <p>Prometo hacerte sonreír todos los días ✨</p>
+
+    <div class="buttons">
+        <button class="yes" onclick="acepto()">Sí 💖</button>
+        <button class="no" id="noBtn">No 😢</button>
+    </div>
+
+    <div id="mensaje" class="hidden">
+        <h2 style="color:#ff4e8a;">¡Sabía que dirías que sí! 😍</h2>
+        <p>Prepárate para el mejor San Valentín 💕</p>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+function acepto() {
+    document.querySelector(".buttons").classList.add("hidden");
+    document.getElementById("mensaje").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
