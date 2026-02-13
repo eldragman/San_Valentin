@@ -32,14 +32,8 @@ body{
 }
 
 h1{
-    font-size:42px; /* más grande */
+    font-size:46px;
     margin-bottom:40px;
-    animation:latido 2s infinite;
-}
-
-@keyframes latido{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.06);}
 }
 
 button{
@@ -68,6 +62,17 @@ button{
     position:absolute;
 }
 
+/* ANIMACIÓN DE ENTRADA (misma para segunda pregunta y final) */
+
+.zoomIn{
+    animation:zoom 1.5s ease forwards;
+}
+
+@keyframes zoom{
+    0%{transform:scale(0.5);opacity:0;}
+    100%{transform:scale(1);opacity:1;}
+}
+
 /* FINAL */
 
 .final-screen{
@@ -81,18 +86,12 @@ button{
 }
 
 .final-title{
-    font-size:50px; /* más grande */
+    font-size:55px;
     font-weight:bold;
-    margin-bottom:40px;
-    animation:zoom 1.5s ease forwards;
+    margin-bottom:50px;
 }
 
-@keyframes zoom{
-    0%{transform:scale(0.5);opacity:0;}
-    100%{transform:scale(1);opacity:1;}
-}
-
-/* ROSA */
+/* ROSA 3D */
 
 .flower{
     position:relative;
@@ -103,46 +102,37 @@ button{
     transition:2s ease;
 }
 
-/* pétalos base */
+/* pétalos generales */
 .petal{
     position:absolute;
     width:140px;
     height:200px;
-    background:radial-gradient(circle at 50% 30%, #b3e5fc, #0288d1);
-    border-radius:70% 70% 40% 40%;
-    top:100px;
-    left:140px;
+    border-radius:70% 70% 50% 50%;
+    background:radial-gradient(circle at 50% 30%, #e1f5fe 0%, #4fc3f7 40%, #01579b 100%);
+    box-shadow:
+        inset -15px -20px 30px rgba(0,0,0,0.3),
+        0 20px 30px rgba(0,0,0,0.25);
     transform-origin:bottom center;
     opacity:0;
-    box-shadow:0 15px 25px rgba(0,0,0,0.25);
 }
 
-/* pétalos internos más pequeños */
-.inner{
-    width:100px;
-    height:150px;
-    top:130px;
-    left:160px;
-    background:radial-gradient(circle at 50% 30%, #e1f5fe, #4fc3f7);
-}
-
-/* centro */
-.center{
+/* centro compacto */
+.core{
     position:absolute;
-    width:80px;
-    height:80px;
-    background:radial-gradient(circle,#4fc3f7,#01579b);
-    border-radius:50%;
-    top:170px;
-    left:170px;
+    width:90px;
+    height:120px;
+    background:radial-gradient(circle at 50% 30%, #b3e5fc, #0288d1);
+    border-radius:60% 60% 50% 50%;
+    top:160px;
+    left:165px;
+    box-shadow:inset -10px -15px 25px rgba(0,0,0,0.4);
     opacity:0;
-    box-shadow:0 0 30px rgba(0,150,255,0.7);
 }
 
 /* tallo */
 .stem{
     position:absolute;
-    width:18px;
+    width:20px;
     height:260px;
     background:linear-gradient(#2e7d32,#1b5e20);
     top:260px;
@@ -171,7 +161,7 @@ button{
     border:3px solid rgba(255,255,255,0.4);
     top:20px;
     left:20px;
-    backdrop-filter:blur(3px);
+    backdrop-filter:blur(4px);
 }
 
 /* respiración */
@@ -185,7 +175,7 @@ button{
 <body>
 
 <div class="container" id="main">
-    <h1>💘 ¿Quieres ser mi San Valentín? 💘</h1>
+    <h1 id="question">💘 ¿Quieres ser mi San Valentín? 💘</h1>
     <button id="yesBtn">Sí 💕</button>
     <button id="noBtn">No 😢</button>
 </div>
@@ -194,9 +184,11 @@ button{
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
 
 let confirmacion = 0;
 
+/* BOTÓN NO */
 noBtn.addEventListener("mouseover", moverNo);
 noBtn.addEventListener("click", moverNo);
 
@@ -207,11 +199,13 @@ function moverNo(){
     noBtn.style.top = y + "px";
 }
 
+/* DOBLE CONFIRMACIÓN */
 yesBtn.addEventListener("click", function(){
 
     if(confirmacion === 0){
-        document.querySelector("h1").innerText =
+        question.innerText =
         "😏 ¿Estás segura? A pesar que te haga renegar mucho";
+        question.classList.add("zoomIn"); // misma animación
         confirmacion++;
     }
     else{
@@ -224,40 +218,38 @@ function mostrarFinal(){
 
     document.body.innerHTML = `
         <div class="final-screen">
-            <div class="final-title">
+            <div class="final-title zoomIn">
                 😍 Sabía que dirías que sí 💍
             </div>
             <div class="flower" id="flower">
                 <div class="glass"></div>
 
-                <!-- pétalos internos -->
-                <div class="petal inner" style="transform:rotate(0deg) scale(0.2);"></div>
-                <div class="petal inner" style="transform:rotate(60deg) scale(0.2);"></div>
-                <div class="petal inner" style="transform:rotate(120deg) scale(0.2);"></div>
-
                 <!-- pétalos externos -->
-                <div class="petal" style="transform:rotate(0deg) scale(0.2);"></div>
-                <div class="petal" style="transform:rotate(60deg) scale(0.2);"></div>
-                <div class="petal" style="transform:rotate(120deg) scale(0.2);"></div>
-                <div class="petal" style="transform:rotate(180deg) scale(0.2);"></div>
-                <div class="petal" style="transform:rotate(240deg) scale(0.2);"></div>
-                <div class="petal" style="transform:rotate(300deg) scale(0.2);"></div>
+                <div class="petal" style="top:120px; left:110px; transform:rotate(-40deg) scale(0.3);"></div>
+                <div class="petal" style="top:100px; left:180px; transform:rotate(0deg) scale(0.3);"></div>
+                <div class="petal" style="top:120px; left:250px; transform:rotate(40deg) scale(0.3);"></div>
+                <div class="petal" style="top:170px; left:140px; transform:rotate(-20deg) scale(0.3);"></div>
+                <div class="petal" style="top:170px; left:230px; transform:rotate(20deg) scale(0.3);"></div>
 
-                <div class="center"></div>
+                <!-- pétalos internos -->
+                <div class="petal" style="top:160px; left:170px; transform:rotate(-10deg) scale(0.2);"></div>
+                <div class="petal" style="top:150px; left:190px; transform:rotate(15deg) scale(0.2);"></div>
+
+                <div class="core"></div>
                 <div class="stem"></div>
                 <div class="base"></div>
             </div>
         </div>
     `;
 
-    setTimeout(animarRosa,8000); // ahora 8 segundos
+    setTimeout(animarRosa,4000); // ahora 4 segundos
 }
 
 function animarRosa(){
 
     const flower = document.getElementById("flower");
     const petals = document.querySelectorAll(".petal");
-    const center = document.querySelector(".center");
+    const core = document.querySelector(".core");
     const stem = document.querySelector(".stem");
 
     flower.style.opacity="1";
@@ -273,15 +265,16 @@ function animarRosa(){
             petal.style.transition="2s ease";
             petal.style.opacity="1";
             petal.style.transform =
-            petal.style.transform.replace("scale(0.2)","scale(1)");
-        },1500 + index*400);
+            petal.style.transform.replace("scale(0.3)","scale(1)")
+                                 .replace("scale(0.2)","scale(1)");
+        },1200 + index*400);
     });
 
     setTimeout(()=>{
-        center.style.transition="1.5s ease";
-        center.style.opacity="1";
+        core.style.transition="1.5s ease";
+        core.style.opacity="1";
         flower.style.animation="respirar 6s infinite";
-    },5000);
+    },3500);
 }
 
 </script>
