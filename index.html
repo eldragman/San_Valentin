@@ -6,115 +6,182 @@
 <title>¿Quieres ser mi San Valentín?</title>
 
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ff4e8a, #ff99c8);
-        font-family: 'Segoe UI', sans-serif;
-        overflow: hidden;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-    .card {
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        position: relative;
-        max-width: 400px;
-    }
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff4e8a,#ff99c8);
+    overflow:hidden;
+}
 
-    h1 {
-        color: #ff4e8a;
-        margin-bottom: 10px;
-    }
+/* Fondo corazones */
+.heart-bg{
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:red;
+    transform:rotate(45deg);
+    animation: float 6s linear infinite;
+    opacity:0.4;
+}
 
-    p {
-        color: #555;
-        margin-bottom: 30px;
-    }
+.heart-bg::before,
+.heart-bg::after{
+    content:'';
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:red;
+    border-radius:50%;
+}
 
-    .buttons {
-        position: relative;
-    }
+.heart-bg::before{ top:-10px; left:0; }
+.heart-bg::after{ left:-10px; top:0; }
 
-    button {
-        padding: 12px 25px;
-        border: none;
-        border-radius: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-        margin: 10px;
-    }
+@keyframes float{
+    0%{ transform:translateY(100vh) rotate(45deg); opacity:0;}
+    50%{ opacity:0.6;}
+    100%{ transform:translateY(-10vh) rotate(45deg); opacity:0;}
+}
 
-    .yes {
-        background: #ff4e8a;
-        color: white;
-    }
+/* Card elegante */
+.card{
+    position:relative;
+    padding:50px;
+    border-radius:25px;
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.2);
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    text-align:center;
+    color:white;
+    animation:fadeIn 1.5s ease;
+}
 
-    .yes:hover {
-        background: #ff2f75;
-        transform: scale(1.1);
-    }
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
 
-    .no {
-        background: #ccc;
-        position: absolute;
-    }
+h1{
+    font-size:28px;
+    margin-bottom:15px;
+}
 
-    .heart {
-        font-size: 50px;
-        animation: latido 1s infinite;
-    }
+p{
+    margin-bottom:30px;
+    font-size:18px;
+}
 
-    @keyframes latido {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-    }
+button{
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+    margin:10px;
+    position:relative;
+}
 
-    .hidden {
-        display: none;
-    }
+.yes{
+    background:white;
+    color:#ff4e8a;
+    font-weight:bold;
+}
+
+.yes:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 20px white;
+}
+
+.no{
+    background:#ffffff55;
+    color:white;
+    position:absolute;
+}
+
+/* Mensaje final */
+.success{
+    animation:pop 0.8s ease forwards;
+}
+
+@keyframes pop{
+    0%{transform:scale(0);}
+    80%{transform:scale(1.1);}
+    100%{transform:scale(1);}
+}
+
+.hidden{
+    display:none;
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <div class="heart">❤️</div>
-    <h1>¿Quieres ser mi San Valentín?</h1>
-    <p>Prometo hacerte sonreír todos los días ✨</p>
+    <h1>¿Quieres ser mi San Valentín? 💘</h1>
+    <p>Prometo risas, abrazos y momentos inolvidables ✨</p>
 
-    <div class="buttons">
-        <button class="yes" onclick="acepto()">Sí 💖</button>
+    <div id="buttons">
+        <button class="yes" onclick="aceptar()">Sí 💖</button>
         <button class="no" id="noBtn">No 😢</button>
     </div>
 
     <div id="mensaje" class="hidden">
-        <h2 style="color:#ff4e8a;">¡Sabía que dirías que sí! 😍</h2>
-        <p>Prepárate para el mejor San Valentín 💕</p>
+        <h2 class="success">Sabía que dirías que sí 😍💖</h2>
+        <p>Prepárate para algo especial ✨</p>
     </div>
 </div>
 
 <script>
+
+/* Crear corazones flotando */
+function crearCorazon(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart-bg");
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.animationDuration = (Math.random()*3+3)+"s";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },6000);
+}
+
+setInterval(crearCorazon,500);
+
+/* Botón NO que se mueve al hacer CLICK */
 const noBtn = document.getElementById("noBtn");
 
-noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+noBtn.addEventListener("click", function(e){
+    e.preventDefault();
+
+    const maxX = window.innerWidth - 100;
+    const maxY = window.innerHeight - 50;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
 });
 
-function acepto() {
-    document.querySelector(".buttons").classList.add("hidden");
+/* Botón SI */
+function aceptar(){
+    document.getElementById("buttons").classList.add("hidden");
     document.getElementById("mensaje").classList.remove("hidden");
 }
+
 </script>
 
 </body>
