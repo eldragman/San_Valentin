@@ -3,44 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flor Celeste</title>
+<title>San Valentín 💘</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 background:#111;
-color:white;
-text-align:center;
+font-family:Arial, Helvetica, sans-serif;
 overflow:hidden;
+color:white;
+position:relative;
+}
+
+/* Fondo animado estrellas */
+.stars::before{
+content:"⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐";
+position:absolute;
+font-size:30px;
+opacity:0.08;
+width:200%;
+animation:mover 20s linear infinite;
+white-space:nowrap;
+}
+
+/* Fondo pensativo */
+.pensive::before{
+content:"🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔";
+position:absolute;
+font-size:30px;
+opacity:0.08;
+width:200%;
+animation:mover 20s linear infinite;
+white-space:nowrap;
+}
+
+@keyframes mover{
+from{transform:translateX(0);}
+to{transform:translateX(-50%);}
 }
 
 .container{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:90%;
-max-width:600px;
+text-align:center;
+z-index:2;
 }
 
-/* Animación entrada suave */
-.fadeIn{
-animation:fadeInUp 1.2s ease forwards;
-opacity:0;
+h1{
+font-size:48px;
+margin-bottom:40px;
 }
 
-@keyframes fadeInUp{
-from{opacity:0; transform:translateY(40px);}
-to{opacity:1; transform:translateY(0);}
+/* Animación entrada */
+.zoom{
+animation:zoom 1.2s ease forwards;
+}
+
+@keyframes zoom{
+0%{transform:scale(0.5);opacity:0;}
+100%{transform:scale(1);opacity:1;}
+}
+
+.buttons{
+display:flex;
+justify-content:center;
+gap:30px;
 }
 
 button{
-padding:12px 25px;
-margin:15px;
-font-size:18px;
+padding:15px 35px;
+font-size:20px;
 border:none;
-border-radius:8px;
+border-radius:40px;
 cursor:pointer;
 transition:0.3s;
 }
@@ -49,157 +86,189 @@ button:hover{
 transform:scale(1.1);
 }
 
-.hidden{display:none;}
-
-/* Fondo estrellas */
-.stars::before{
-content:"⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐";
-position:absolute;
-width:200%;
-animation:moveBg 15s linear infinite;
-font-size:25px;
-opacity:0.1;
-white-space:nowrap;
+#yesBtn{
+background:white;
+color:#ff4e8a;
+font-weight:bold;
 }
 
-.pensive::before{
-content:"🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔 🤔";
-position:absolute;
-width:200%;
-animation:moveBg 15s linear infinite;
-font-size:25px;
-opacity:0.1;
-white-space:nowrap;
-}
-
-@keyframes moveBg{
-from{transform:translateX(0);}
-to{transform:translateX(-50%);}
-}
-
-/* Rosa */
-.rose-container{
-position:absolute;
-bottom:5%;
-left:50%;
-transform:translateX(-50%);
-opacity:0;
-animation:appear 2s ease forwards;
-animation-delay:2s;
-}
-
-@keyframes appear{
-to{opacity:1;}
-}
-
-.stem{
-width:8px;
-height:150px;
-background:linear-gradient(#1e7d32,#0f3d16);
-margin:0 auto;
+#noBtn{
+background:#c2185b;
+color:white;
 position:relative;
-z-index:1;
 }
 
-.rose{
+/* FINAL */
+
+.final-screen{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:radial-gradient(circle at center,#ff6fa5,#ff4e8a);
+}
+
+.final-title{
+font-size:55px;
+margin-bottom:40px;
+}
+
+/* ROSA */
+
+.flower{
+position:relative;
+width:300px;
+height:420px;
+opacity:0;
+transform:scale(0.6);
+transition:1.5s ease;
+}
+
+/* tallo */
+.stem{
 position:absolute;
-bottom:140px;
+width:16px;
+height:220px;
+background:linear-gradient(#2e7d32,#1b5e20);
+bottom:0;
 left:50%;
-transform:translateX(-50%) scale(0.8);
-width:160px;
-height:160px;
+transform:translateX(-50%) scaleY(0);
+transform-origin:top;
 }
 
-/* Pétalos base */
+/* pétalos centrados arriba del tallo */
 .petal{
 position:absolute;
-width:100px;
-height:120px;
-background:radial-gradient(circle at 30% 30%, #a6e3ff, #2ea3f2 60%, #0a4f7a);
-border-radius:60% 60% 60% 60%;
-box-shadow:0 15px 25px rgba(0,0,0,0.4);
+width:90px;
+height:130px;
+border-radius:70% 70% 60% 60%;
+background:radial-gradient(circle at 50% 30%, #e1f5fe 0%, #4fc3f7 50%, #01579b 100%);
+box-shadow:
+inset -12px -18px 25px rgba(0,0,0,0.4),
+0 15px 20px rgba(0,0,0,0.3);
 transform-origin:bottom center;
-animation:bloom 3s ease forwards;
 opacity:0;
 }
 
-@keyframes bloom{
-0%{transform:scale(0) rotate(0deg); opacity:0;}
-100%{transform:scale(1) rotate(var(--r)); opacity:1;}
-}
-
-/* Capas pétalos */
-.p1{--r:-30deg; left:30px; top:40px; animation-delay:2.2s;}
-.p2{--r:30deg; right:30px; top:40px; animation-delay:2.4s;}
-.p3{--r:-60deg; left:5px; top:20px; animation-delay:2.6s;}
-.p4{--r:60deg; right:5px; top:20px; animation-delay:2.8s;}
-.p5{--r:0deg; left:30px; top:0px; animation-delay:3s;}
-
-/* Centro */
-.center{
+/* centro compacto */
+.core{
 position:absolute;
-top:45px;
-left:50%;
-transform:translateX(-50%);
-width:50px;
-height:50px;
-background:radial-gradient(circle,#d2f1ff,#1e90ff 70%,#083b66);
-border-radius:50%;
-box-shadow:0 0 25px rgba(0,150,255,0.6);
-animation:fadeCenter 2s ease forwards;
-animation-delay:3.2s;
+width:60px;
+height:80px;
+background:radial-gradient(circle at 50% 30%, #b3e5fc, #0288d1);
+border-radius:60% 60% 50% 50%;
+box-shadow:inset -8px -12px 20px rgba(0,0,0,0.5);
 opacity:0;
 }
 
-@keyframes fadeCenter{
-to{opacity:1;}
+/* respiración */
+@keyframes respirar{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.03);}
 }
+
 </style>
 </head>
+<body class="stars">
 
-<body>
+<div class="container" id="main">
+<h1 id="question">💘 ¿Quieres ser mi San Valentín? 💘</h1>
 
-<div id="question1" class="container stars fadeIn">
-<h1>¿Te gustan las flores celestes? 🌸</h1>
-<button onclick="next1()">SI</button>
-<button onclick="alert('Inténtalo otra vez 😅')">NO</button>
-</div>
-
-<div id="question2" class="container hidden pensive">
-<h1 id="q2text">¿Aceptarías esta rosa especial? 🌹</h1>
-<button onclick="finalMessage()">SI</button>
-<button onclick="alert('Oh no 😢')">NO</button>
-</div>
-
-<div id="final" class="container hidden">
-<h1 class="fadeIn">Esta rosa florece solo para ti 💙✨</h1>
-</div>
-
-<div class="rose-container">
-<div class="stem"></div>
-<div class="rose">
-<div class="petal p1"></div>
-<div class="petal p2"></div>
-<div class="petal p3"></div>
-<div class="petal p4"></div>
-<div class="petal p5"></div>
-<div class="center"></div>
+<div class="buttons">
+<button id="yesBtn">Sí 💕</button>
+<button id="noBtn">No 😢</button>
 </div>
 </div>
 
 <script>
-function next1(){
-document.getElementById("question1").classList.add("hidden");
-let q2 = document.getElementById("question2");
-q2.classList.remove("hidden");
-q2.classList.add("fadeIn");
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const question = document.getElementById("question");
+
+let confirmacion = 0;
+
+/* botón NO se mueve */
+noBtn.addEventListener("mouseover", ()=>{
+noBtn.style.position="absolute";
+noBtn.style.left=Math.random()*80+"%";
+noBtn.style.top=Math.random()*80+"%";
+});
+
+/* doble confirmación */
+yesBtn.addEventListener("click", ()=>{
+
+if(confirmacion===0){
+document.body.classList.remove("stars");
+document.body.classList.add("pensive");
+
+question.innerText="😏 ¿Estás segura? A pesar que te haga renegar mucho";
+question.classList.add("zoom");
+confirmacion++;
+}else{
+mostrarFinal();
 }
 
-function finalMessage(){
-document.getElementById("question2").classList.add("hidden");
-let final = document.getElementById("final");
-final.classList.remove("hidden");
+});
+
+function mostrarFinal(){
+
+document.body.className="";
+document.body.innerHTML=`
+<div class="final-screen">
+<div class="final-title zoom">
+😍 Sabía que dirías que sí 💍
+</div>
+
+<div class="flower" id="flower">
+<div class="stem"></div>
+
+<!-- pétalos centrados -->
+<div class="petal" style="bottom:220px; left:50%; transform:translateX(-50%) rotate(0deg) scale(0.3);"></div>
+<div class="petal" style="bottom:230px; left:50%; transform:translateX(-50%) rotate(40deg) scale(0.3);"></div>
+<div class="petal" style="bottom:230px; left:50%; transform:translateX(-50%) rotate(-40deg) scale(0.3);"></div>
+<div class="petal" style="bottom:240px; left:50%; transform:translateX(-50%) rotate(80deg) scale(0.3);"></div>
+<div class="petal" style="bottom:240px; left:50%; transform:translateX(-50%) rotate(-80deg) scale(0.3);"></div>
+
+<div class="core" style="bottom:250px; left:50%; transform:translateX(-50%);"></div>
+</div>
+</div>
+`;
+
+setTimeout(animarRosa,2000);
 }
+
+function animarRosa(){
+
+const flower=document.getElementById("flower");
+const petals=document.querySelectorAll(".petal");
+const stem=document.querySelector(".stem");
+const core=document.querySelector(".core");
+
+flower.style.opacity="1";
+flower.style.transform="scale(1)";
+
+stem.style.transition="1.5s ease";
+stem.style.transform="translateX(-50%) scaleY(1)";
+
+petals.forEach((petal,i)=>{
+setTimeout(()=>{
+petal.style.transition="1.8s ease";
+petal.style.opacity="1";
+petal.style.transform=
+petal.style.transform.replace("scale(0.3)","scale(1)");
+},800+i*300);
+});
+
+setTimeout(()=>{
+core.style.transition="1.5s ease";
+core.style.opacity="1";
+flower.style.animation="respirar 6s infinite";
+},2500);
+}
+
 </script>
 
 </body>
