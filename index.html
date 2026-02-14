@@ -134,10 +134,11 @@
         .leaf.right-high { left: 12px; bottom: 150px; transform: rotate(-35deg) scale(0); transform-origin: left bottom; }
         .leaf.right-high::before { transform: rotate(-12deg); }
 
-        /* ROSA ACOMODADA EN LA PARTE SUPERIOR DEL TALLO */
+        /* --- CORRECCIÓN DE POSICIÓN DE LA ROSA --- */
         .rose-head {
             position: absolute;
-            bottom: 420px; /* Alineada exactamente al final del tallo */
+            /* Se ajusta para que coincida con el tope del tallo (115px base + 320px altura = 435px) */
+            bottom: 435px; 
             width: 220px;
             height: 180px;
             z-index: 20;
