@@ -63,14 +63,18 @@
             50% { transform: scale(1.8); opacity: 1; box-shadow: 0 0 12px white; }
         }
 
-        .thinking-emoji {
+        .floating-emoji {
             position: absolute;
             pointer-events: none;
-            animation: floatEmoji var(--speed) linear forwards;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            animation: floatUp var(--speed) linear forwards;
         }
 
-        @keyframes floatEmoji {
+        /* Efecto Rosa Celeste mediante filtros CSS */
+        .blue-flower {
+            filter: hue-rotate(190deg) brightness(1.2);
+        }
+
+        @keyframes floatUp {
             0% { transform: translateY(20vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
@@ -132,7 +136,6 @@ const effectsLayer = document.getElementById("effects-container");
 let etapa = 0;
 let emojiInterval;
 
-// Etapa 1: 150 Estrellas para máximo brillo
 function initStars() {
     effectsLayer.innerHTML = '';
     for (let i = 0; i < 150; i++) {
@@ -148,20 +151,25 @@ function initStars() {
     }
 }
 
-// Etapa 2: Lluvia masiva de emojis pensantes
-function spawnEmoji() {
+function spawnEmoji(type) {
     const emoji = document.createElement("div");
-    emoji.className = "thinking-emoji";
-    emoji.innerText = "🤔";
+    emoji.className = "floating-emoji";
+    
+    if (type === 'thinking') {
+        emoji.innerText = "🤔";
+    } else if (type === 'flower') {
+        emoji.innerText = "🌹";
+        emoji.classList.add("blue-flower"); // Aplicar tinte celeste
+    }
+
     emoji.style.left = `${Math.random() * 100}vw`;
     emoji.style.top = "100vh";
-    emoji.style.fontSize = `${Math.random() * 30 + 20}px`;
-    emoji.style.setProperty('--speed', `${Math.random() * 2 + 2}s`);
+    emoji.style.fontSize = `${Math.random() * 30 + 25}px`;
+    emoji.style.setProperty('--speed', `${Math.random() * 2 + 3}s`);
     emoji.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
-    effectsLayer.appendChild(emoji);
     
-    // Eliminación automática para evitar lag
-    setTimeout(() => emoji.remove(), 4000);
+    effectsLayer.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 5000);
 }
 
 function moverNo() {
@@ -180,8 +188,7 @@ yesBtn.addEventListener("click", () => {
         question.innerText = "¿Estás segura? A pesar que te haga renegar mucho 😅";
         etapa = 1;
         effectsLayer.innerHTML = ''; 
-        // Intervalo acelerado a 100ms para llenar la pantalla
-        emojiInterval = setInterval(spawnEmoji, 100); 
+        emojiInterval = setInterval(() => spawnEmoji('thinking'), 100); 
     } else {
         clearInterval(emojiInterval);
         mostrarFinal();
@@ -219,6 +226,11 @@ function mostrarFinal() {
     `;
     document.getElementById("final-anchor").innerHTML = finalHTML;
     setTimeout(animarRosa, 100);
+
+    // NUEVO EFECTO: Flores celestes después de 5 segundos
+    setTimeout(() => {
+        setInterval(() => spawnEmoji('flower'), 150);
+    }, 5000);
 }
 
 function animarRosa() {
