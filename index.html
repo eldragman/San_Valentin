@@ -59,7 +59,7 @@
             z-index: 100;
         }
 
-        /* --- ESTRUCTURA DE LA ROSA Y TALLO --- */
+        /* --- ESTRUCTURA ESCALADA --- */
         .flower-case {
             position: relative;
             width: 400px;
@@ -72,7 +72,7 @@
         .glass-dome {
             position: absolute;
             width: 320px;
-            height: 450px;
+            height: 480px; /* Un poco más alto */
             border-radius: 160px 160px 40px 40px;
             border: 2px solid rgba(255, 255, 255, 0.5);
             background: rgba(255, 255, 255, 0.1);
@@ -94,37 +94,37 @@
 
         .stem {
             position: absolute;
-            width: 8px;
-            height: 250px;
+            width: 10px; /* Más grueso */
+            height: 310px; /* Más alto */
             background: linear-gradient(to right, #0a330c, #1b5e20, #0a330c);
             bottom: 110px;
             left: 50%;
-            margin-left: -4px;
+            margin-left: -5px;
             z-index: 5;
             transform-origin: bottom;
             transform: scaleY(0);
         }
 
-        /* HOJAS LIMPIAS (SIN NERVADURAS) */
         .leaf {
             position: absolute;
-            width: 70px;
-            height: 40px;
+            width: 90px; /* Más grande */
+            height: 50px;
             background: #1b5e20;
             box-shadow: inset 5px -5px 15px rgba(0,0,0,0.4);
             opacity: 0;
             transition: 1s;
         }
 
-        .leaf.left { left: -70px; bottom: 60px; transform: rotate(10deg); border-radius: 100% 0 100% 0; }
-        .leaf.right-low { left: 8px; bottom: 30px; transform: rotate(-40deg); border-radius: 0 100% 0 100%; }
-        .leaf.right-high { left: 8px; bottom: 100px; transform: rotate(-35deg); border-radius: 0 100% 0 100%; }
+        .leaf.left { left: -90px; bottom: 80px; transform: rotate(10deg); border-radius: 100% 0 100% 0; }
+        .leaf.right-low { left: 10px; bottom: 40px; transform: rotate(-40deg); border-radius: 0 100% 0 100%; }
+        .leaf.right-high { left: 10px; bottom: 140px; transform: rotate(-35deg); border-radius: 0 100% 0 100%; }
 
+        /* --- CABEZA DE ROSA MÁS GRANDE --- */
         .rose-head {
             position: absolute;
-            top: 210px;
-            width: 160px;
-            height: 140px;
+            top: 130px; /* Ajustado para el nuevo tallo */
+            width: 220px; /* Escalado */
+            height: 190px;
             z-index: 20;
             transform-style: preserve-3d;
             transform: rotateX(-15deg);
@@ -141,11 +141,11 @@
             box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2);
         }
 
-        .p-outer { width: 130px; height: 110px; margin-left: -65px; border-radius: 50% 50% 40% 40%; }
-        .p-mid { width: 90px; height: 100px; margin-left: -45px; border-radius: 50%; z-index: 22; }
+        .p-outer { width: 170px; height: 140px; margin-left: -85px; border-radius: 50% 50% 40% 40%; }
+        .p-mid { width: 120px; height: 130px; margin-left: -60px; border-radius: 50%; z-index: 22; }
 
         .p-core { 
-            width: 50px; height: 70px; margin-left: -25px; border-radius: 50%; 
+            width: 65px; height: 90px; margin-left: -32.5px; border-radius: 50%; 
             background: #013d66; 
             z-index: 30; 
             box-shadow: inset 0 0 15px #000;
@@ -207,15 +207,15 @@ function mostrarFinal() {
                     <div class="leaf right-high" id="l3"></div>
                 </div>
                 <div class="rose-head" id="rose">
-                    <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(60deg) translateZ(20px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(90deg) rotateX(60deg) translateZ(20px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(180deg) rotateX(60deg) translateZ(20px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(270deg) rotateX(60deg) translateZ(20px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(90deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(180deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(270deg) rotateX(60deg) translateZ(30px);"></div>
 
-                    <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(40deg) translateZ(10px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(135deg) rotateX(40deg) translateZ(10px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(40deg) translateZ(10px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(315deg) rotateX(40deg) translateZ(10px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(135deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(315deg) rotateX(40deg) translateZ(15px);"></div>
 
                     <div class="petal p-core" style="transform: rotateX(10deg);"></div>
                 </div>
@@ -240,8 +240,6 @@ function animarRosa() {
         rose.style.animation = "breathe 4s infinite ease-in-out";
         leaves.forEach(l => {
             l.style.opacity = "1";
-            const currentRot = l.style.transform.split(' ')[0];
-            l.style.transform = `${currentRot} scale(1)`;
         });
     }, 1800);
 }
