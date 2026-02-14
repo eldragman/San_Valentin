@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propuesta Estratégica 💘</title>
+    <title>San Valentín 💘</title>
     <style>
-        :root {
-            --primary-pink: #ff4e8a;
-            --dark-pink: #c2185b;
-            --rose-blue: #4fc3f7;
-            --stem-green: #2e7d32;
-        }
-
         body {
             margin: 0;
             height: 100vh;
@@ -21,7 +14,7 @@
             background: linear-gradient(-45deg, #ff4e8a, #ff99c8, #ff6fa5);
             background-size: 400% 400%;
             animation: fondo 12s ease infinite;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             overflow: hidden;
             color: white;
         }
@@ -32,195 +25,219 @@
             100% { background-position: 0% 50%; }
         }
 
-        .container {
-            text-align: center;
-            z-index: 10;
-            padding: 20px;
-            transition: opacity 0.5s ease;
-        }
+        .container { text-align: center; width: 100%; z-index: 10; }
 
-        .hidden { display: none !important; }
-        .transparent { opacity: 0; pointer-events: none; }
-
-        h1 { font-size: 2.5rem; margin-bottom: 2rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
-
-        .btn-group { position: relative; height: 100px; }
+        /* TAMAÑO DE TEXTO AGRANDADO */
+        h1 { font-size: 55px; margin-bottom: 40px; min-height: 120px; }
 
         button {
-            padding: 15px 35px;
-            font-size: 1.2rem;
+            padding: 15px 45px;
+            font-size: 24px;
             border: none;
-            border-radius: 50px;
+            border-radius: 40px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 15px;
+            transition: 0.3s;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        #yesBtn { background: white; color: var(--primary-pink); }
-        #noBtn { background: var(--dark-pink); color: white; position: absolute; }
+        #yesBtn { background: white; color: #ff4e8a; }
+        #yesBtn:hover { transform: scale(1.1); }
+        #noBtn { background: #c2185b; color: white; position: absolute; z-index: 20; }
 
-        /* SECCIÓN FINAL (ROSA) */
+        /* ANIMACIÓN ORIGINAL RESTAURADA */
+        .zoomIn { animation: zoom 1.5s ease forwards; }
+        @keyframes zoom {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .final-screen {
             position: fixed;
             inset: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             background: radial-gradient(circle at center, #ff6fa5, #ff4e8a);
-            opacity: 0;
-            transition: opacity 1s ease;
+            z-index: 100;
         }
 
-        .flower-container {
+        /* ROSA MEJORADA (Nítida y Centrada) */
+        .flower {
             position: relative;
-            width: 300px; /* Responsive base */
-            height: 400px;
-            transform: scale(0.8);
+            width: 400px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
         }
 
         .glass {
             position: absolute;
-            inset: 0;
-            border-radius: 150px 150px 20px 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            backdrop-filter: blur(2px);
+            width: 350px;
+            height: 450px;
+            border-radius: 175px 175px 20px 20px;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(3px);
             z-index: 5;
+            bottom: 40px;
         }
 
         .stem {
             position: absolute;
-            width: 10px;
-            height: 0;
-            background: linear-gradient(to bottom, var(--stem-green), #1b5e20);
-            left: 50%;
-            bottom: 50px;
-            transform: translateX(-50%);
-            transition: height 1.5s ease;
+            width: 12px;
+            height: 220px;
+            background: linear-gradient(#2e7d32, #1b5e20);
+            bottom: 70px;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            border-radius: 5px;
+        }
+
+        .petal-container {
+            position: absolute;
+            top: 170px; /* Centrado en la parte superior del tallo */
+            width: 100px;
+            height: 100px;
         }
 
         .petal {
             position: absolute;
-            width: 80px;
-            height: 120px;
-            background: radial-gradient(circle at 50% 30%, #e1f5fe, var(--rose-blue), #01579b);
-            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
-            left: 50%;
-            top: 40%;
+            width: 90px;
+            height: 110px;
+            background: radial-gradient(circle at 50% 30%, #e1f5fe, #4fc3f7 60%, #0288d1);
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.1);
             transform-origin: bottom center;
             opacity: 0;
-            transform: translateX(-50%) scale(0);
-            transition: all 1s ease;
+            left: 50%;
+            margin-left: -45px;
+        }
+
+        .core {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            background: #0288d1;
+            border-radius: 50%;
+            top: 10px;
+            left: 50%;
+            margin-left: -25px;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        /* BASE AUMENTADA */
+        .base {
+            position: absolute;
+            width: 380px;
+            height: 50px;
+            background: #1a1a1a;
+            border-radius: 50px;
+            bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
         @keyframes respirar {
-            0%, 100% { transform: scale(0.8); }
-            50% { transform: scale(0.85); }
-        }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            .flower-container { transform: scale(0.7); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="quiz-container">
-        <h1 id="question">💘 ¿Quieres ser mi San Valentín? 💘</h1>
-        <div class="btn-group">
-            <button id="yesBtn">Sí 💕</button>
-            <button id="noBtn">No 😢</button>
+<div class="container" id="main">
+    <h1 id="question">💘 ¿Quieres ser mi San Valentín? 💘</h1>
+    <button id="yesBtn">Sí 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<div id="final-anchor"></div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
+let confirmacion = 0;
+
+// LÓGICA DEL BOTÓN NO (No sale de la pantalla)
+function moverNo() {
+    const margin = 100;
+    const x = Math.max(margin, Math.random() * (window.innerWidth - noBtn.offsetWidth - margin));
+    const y = Math.max(margin, Math.random() * (window.innerHeight - noBtn.offsetHeight - margin));
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moverNo);
+noBtn.addEventListener("click", moverNo);
+
+// LÓGICA DE DOBLE CONFIRMACIÓN CORREGIDA
+yesBtn.addEventListener("click", function() {
+    if (confirmacion === 0) {
+        question.classList.remove("zoomIn");
+        void question.offsetWidth; // Force reflow para reiniciar animación
+        question.innerText = "😏 ¿Estás segura? A pesar que te haga renegar mucho";
+        question.classList.add("zoomIn");
+        confirmacion = 1;
+    } else {
+        mostrarFinal();
+    }
+});
+
+function mostrarFinal() {
+    document.getElementById("main").style.display = "none";
+    const finalHTML = `
+        <div class="final-screen">
+            <div class="zoomIn" style="font-size:55px; font-weight:bold; margin-bottom:50px; text-align:center;">
+                😍 Sabía que dirías que sí 💍
+            </div>
+            <div class="flower" id="flower">
+                <div class="base"></div>
+                <div class="stem" id="stem"></div>
+                <div class="petal-container" id="p-container">
+                    <div class="petal" style="transform: rotate(-40deg) scale(0.5);"></div>
+                    <div class="petal" style="transform: rotate(40deg) scale(0.5);"></div>
+                    <div class="petal" style="transform: rotate(-20deg) scale(0.5);"></div>
+                    <div class="petal" style="transform: rotate(20deg) scale(0.5);"></div>
+                    <div class="petal" style="transform: rotate(0deg) scale(0.5);"></div>
+                    <div class="core" id="core"></div>
+                </div>
+                <div class="glass"></div>
+            </div>
         </div>
-    </div>
+    `;
+    document.getElementById("final-anchor").innerHTML = finalHTML;
+    setTimeout(animarRosa, 500);
+}
 
-    <div class="final-screen hidden" id="final-screen">
-        <h1 style="margin-bottom: 20px;">😍 Sabía que dirías que sí</h1>
-        <div class="flower-container" id="flower-box">
-            <div class="glass"></div>
-            <div class="stem" id="stem"></div>
-            <div class="petal" style="--r:-30deg; --d:0.2s"></div>
-            <div class="petal" style="--r:30deg; --d:0.4s"></div>
-            <div class="petal" style="--r:-15deg; --d:0.6s"></div>
-            <div class="petal" style="--r:15deg; --d:0.8s"></div>
-            <div class="petal" style="--r:0deg; --d:1s"></div>
-        </div>
-    </div>
+function animarRosa() {
+    const stem = document.getElementById("stem");
+    const petals = document.querySelectorAll(".petal");
+    const core = document.getElementById("core");
+    const flower = document.getElementById("flower");
 
-    <script>
-        const noBtn = document.getElementById("noBtn");
-        const yesBtn = document.getElementById("yesBtn");
-        const question = document.getElementById("question");
-        const quizContainer = document.getElementById("quiz-container");
-        const finalScreen = document.getElementById("final-screen");
-        
-        let attempts = 0;
-        let scaleYes = 1;
+    // Tallo
+    stem.style.transition = "2s ease";
+    stem.style.transform = "scaleY(1)";
 
-        const moverNo = () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-            
-            // Escalado estratégico: El "Sí" crece, el "No" se achica
-            attempts++;
-            scaleYes += 0.2;
-            yesBtn.style.transform = `scale(${scaleYes})`;
-            
-            if(attempts > 5) {
-                noBtn.style.opacity = "0.5";
-                question.innerText = "¡Ya deja de intentar decir que no! 😂";
-            }
-        };
+    // Pétalos centrados y nítidos
+    petals.forEach((petal, index) => {
+        setTimeout(() => {
+            petal.style.transition = "1.5s ease";
+            petal.style.opacity = "1";
+            const currentRotation = petal.style.transform.split(' ')[0];
+            petal.style.transform = `${currentRotation} scale(1)`;
+        }, 1000 + (index * 300));
+    });
 
-        noBtn.addEventListener("mouseover", moverNo);
-        noBtn.addEventListener("click", moverNo);
+    setTimeout(() => {
+        core.style.transition = "1s ease";
+        core.style.opacity = "1";
+        flower.style.animation = "respirar 4s infinite ease-in-out";
+    }, 2800);
+}
+</script>
 
-        yesBtn.addEventListener("click", () => {
-            if (attempts < 1) {
-                question.innerText = "😏 ¿Estás segura? Mira que soy renegón...";
-                attempts = 1; 
-                return;
-            }
-            ejecutarFinal();
-        });
-
-        function ejecutarFinal() {
-            quizContainer.classList.add('transparent');
-            
-            setTimeout(() => {
-                quizContainer.classList.add('hidden');
-                finalScreen.classList.remove('hidden');
-                setTimeout(() => finalScreen.style.opacity = "1", 50);
-                animarRosa();
-            }, 500);
-        }
-
-        function animarRosa() {
-            const stem = document.getElementById("stem");
-            const petals = document.querySelectorAll(".petal");
-
-            // 1. Crece el tallo
-            stem.style.height = "250px";
-
-            // 2. Aparecen pétalos con delay calculado
-            petals.forEach((p) => {
-                const delay = parseFloat(getComputedStyle(p).getPropertyValue('--d')) * 1000;
-                const rotacion = getComputedStyle(p).getPropertyValue('--r');
-                
-                setTimeout(() => {
-                    p.style.opacity = "1";
-                    p.style.transform = `translateX(-50%) rotate(${rotacion}) scale(1)`;
-                }, delay + 1000);
-            });
-
-            // 3. Activar respiración final
-            setTimeout(() => {
-                document.getElementById("flower-box").style.animation = "respirar 4s infinite ease-in-out";
-            }, 3000);
-        }
-    </script>
 </body>
 </html>
