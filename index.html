@@ -105,31 +105,20 @@
             transform: scaleY(0);
         }
 
+        /* HOJAS LIMPIAS (SIN NERVADURAS) */
         .leaf {
             position: absolute;
             width: 70px;
             height: 40px;
             background: #1b5e20;
-            border-radius: 0 100% 0 100%;
             box-shadow: inset 5px -5px 15px rgba(0,0,0,0.4);
-            overflow: hidden;
             opacity: 0;
             transition: 1s;
         }
 
-        .leaf::before {
-            content: '';
-            position: absolute;
-            top: 20%; left: -10%;
-            width: 120%; height: 4px;
-            background: #052207;
-            transform: rotate(-15deg);
-        }
-
         .leaf.left { left: -70px; bottom: 60px; transform: rotate(10deg); border-radius: 100% 0 100% 0; }
-        .leaf.left::before { transform: rotate(15deg); }
-        .leaf.right-low { left: 8px; bottom: 30px; transform: rotate(-40deg); }
-        .leaf.right-high { left: 8px; bottom: 100px; transform: rotate(-35deg); }
+        .leaf.right-low { left: 8px; bottom: 30px; transform: rotate(-40deg); border-radius: 0 100% 0 100%; }
+        .leaf.right-high { left: 8px; bottom: 100px; transform: rotate(-35deg); border-radius: 0 100% 0 100%; }
 
         .rose-head {
             position: absolute;
@@ -160,12 +149,12 @@
             background: #013d66; 
             z-index: 30; 
             box-shadow: inset 0 0 15px #000;
-        } /* Llave de cierre corregida */
+        }
 
         @keyframes breathe {
             0%, 100% { transform: rotateX(-15deg) scale(1); }
             50% { transform: rotateX(-15deg) scale(1.03); }
-        } /* Llave de cierre corregida */
+        }
     </style>
 </head>
 <body>
