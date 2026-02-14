@@ -26,7 +26,7 @@
         }
 
         .container { text-align: center; width: 100%; z-index: 10; position: relative; }
-        h1 { font-size: 55px; margin-bottom: 40px; min-height: 120px; text-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
+        h1 { font-size: 55px; margin-bottom: 40px; min-height: 120px; text-shadow: 2px 2px 15px rgba(0,0,0,0.3); }
 
         button {
             padding: 15px 45px;
@@ -42,31 +42,39 @@
         #yesBtn { background: white; color: #ff4e8a; }
         #noBtn { background: #c2185b; color: white; position: absolute; z-index: 20; }
 
-        /* --- EFECTOS DE ANIMACIÓN --- */
+        /* --- EFECTOS DE CAPA --- */
+        #effects-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
             opacity: 0.8;
-            pointer-events: none;
             animation: twinkle var(--d) infinite ease-in-out;
         }
 
         @keyframes twinkle {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.5); opacity: 1; box-shadow: 0 0 10px white; }
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.8); opacity: 1; box-shadow: 0 0 12px white; }
         }
 
         .thinking-emoji {
             position: absolute;
-            font-size: 30px;
             pointer-events: none;
-            animation: floatEmoji 3s linear forwards;
+            animation: floatEmoji var(--speed) linear forwards;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
         }
 
         @keyframes floatEmoji {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(20vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(var(--rot)); opacity: 0; }
         }
 
         /* --- BLOQUE ROSA (RESPALDO BLOQUEADO) --- */
@@ -124,35 +132,38 @@ const effectsLayer = document.getElementById("effects-container");
 let etapa = 0;
 let emojiInterval;
 
-// Función para crear estrellitas (Etapa 1)
+// Etapa 1: 150 Estrellas para máximo brillo
 function initStars() {
     effectsLayer.innerHTML = '';
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 150; i++) {
         const star = document.createElement("div");
         star.className = "star";
-        const size = Math.random() * 4 + 2;
+        const size = Math.random() * 3 + 1;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
         star.style.left = `${Math.random() * 100}vw`;
         star.style.top = `${Math.random() * 100}vh`;
-        star.style.setProperty('--d', `${Math.random() * 3 + 1}s`);
+        star.style.setProperty('--d', `${Math.random() * 2 + 0.5}s`);
         effectsLayer.appendChild(star);
     }
 }
 
-// Función para crear emojis pensantes (Etapa 2)
+// Etapa 2: Lluvia masiva de emojis pensantes
 function spawnEmoji() {
     const emoji = document.createElement("div");
     emoji.className = "thinking-emoji";
     emoji.innerText = "🤔";
     emoji.style.left = `${Math.random() * 100}vw`;
-    emoji.style.top = "110vh";
-    emoji.style.fontSize = `${Math.random() * 20 + 20}px`;
+    emoji.style.top = "100vh";
+    emoji.style.fontSize = `${Math.random() * 30 + 20}px`;
+    emoji.style.setProperty('--speed', `${Math.random() * 2 + 2}s`);
+    emoji.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
     effectsLayer.appendChild(emoji);
-    setTimeout(() => emoji.remove(), 3000);
+    
+    // Eliminación automática para evitar lag
+    setTimeout(() => emoji.remove(), 4000);
 }
 
-// Mover botón No
 function moverNo() {
     const margin = 100;
     const x = Math.max(margin, Math.min(window.innerWidth - noBtn.offsetWidth - margin, Math.random() * window.innerWidth));
@@ -164,18 +175,14 @@ function moverNo() {
 noBtn.addEventListener("mouseover", moverNo);
 noBtn.addEventListener("click", moverNo);
 
-// Lógica de transición de preguntas
 yesBtn.addEventListener("click", () => {
     if (etapa === 0) {
-        // Pasar a la segunda pregunta
         question.innerText = "¿Estás segura? A pesar que te haga renegar mucho 😅";
         etapa = 1;
-        
-        // Limpiar estrellas e iniciar emojis
-        effectsLayer.innerHTML = '';
-        emojiInterval = setInterval(spawnEmoji, 300);
+        effectsLayer.innerHTML = ''; 
+        // Intervalo acelerado a 100ms para llenar la pantalla
+        emojiInterval = setInterval(spawnEmoji, 100); 
     } else {
-        // Pasar al final
         clearInterval(emojiInterval);
         mostrarFinal();
     }
@@ -183,7 +190,7 @@ yesBtn.addEventListener("click", () => {
 
 function mostrarFinal() {
     document.getElementById("main").style.display = "none";
-    effectsLayer.innerHTML = ''; // Limpiar emojis antes del final
+    effectsLayer.innerHTML = ''; 
     
     const finalHTML = `
         <div class="final-screen">
@@ -228,7 +235,6 @@ function animarRosa() {
     }, 1800);
 }
 
-// Iniciar estrellas al cargar
 initStars();
 </script>
 </body>
