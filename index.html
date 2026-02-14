@@ -25,18 +25,18 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* CAPA DE EFECTOS: AHORA EN EL FONDO */
+        /* CAPA DE EFECTOS: SIEMPRE EN EL FONDO */
         #effects-container {
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: 1; /* Detrás de todo */
+            z-index: 1; 
         }
 
         .container { 
             text-align: center; 
             width: 100%; 
-            z-index: 100; /* Por encima de los efectos */
+            z-index: 100; 
             position: relative; 
         }
 
@@ -62,23 +62,10 @@
             z-index: 120;
         }
 
-        #yesBtn { background: white; color: #ff4e8a; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        #yesBtn { background: white; color: #ff4e8a; }
         #noBtn { background: #c2185b; color: white; position: absolute; z-index: 130; }
 
-        /* ESTILOS DE ANIMACIONES */
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: twinkle var(--d) infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.8); opacity: 1; box-shadow: 0 0 12px white; }
-        }
-
+        /* ANIMACIONES DE EMOJIS */
         .floating-emoji {
             position: absolute;
             pointer-events: none;
@@ -94,7 +81,20 @@
             100% { transform: translateY(-20vh) rotate(var(--rot)); opacity: 0; }
         }
 
-        /* PANTALLA FINAL Y ROSA (RESPALDO BLOQUEADO) */
+        /* ESTRELLAS */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--d) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.8); opacity: 1; }
+        }
+
+        /* PANTALLA FINAL */
         .final-screen {
             position: fixed;
             inset: 0;
@@ -103,11 +103,12 @@
             align-items: center;
             flex-direction: column;
             background: radial-gradient(circle at center, #ff6fa5, #ff4e8a);
-            z-index: 50; /* Entre los efectos y el texto final */
+            z-index: 50; 
         }
 
-        .final-screen h1 { z-index: 200; } /* Título final siempre al frente */
+        .final-screen h1 { z-index: 200; }
 
+        /* ROSA (ESTRUCTURA BLOQUEADA) */
         .flower-case { position: relative; width: 400px; height: 600px; display: flex; justify-content: center; perspective: 1200px; z-index: 60; }
         .glass-dome { position: absolute; width: 320px; height: 480px; border-radius: 160px 160px 40px 40px; border: 2px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.1); bottom: 80px; z-index: 10; }
         .base { position: absolute; width: 380px; height: 70px; background: #1a0f0f; border-radius: 20px; bottom: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); z-index: 40; border-bottom: 10px solid #000; }
@@ -169,19 +170,16 @@ function initStars() {
 function spawnEmoji(type) {
     const emoji = document.createElement("div");
     emoji.className = "floating-emoji";
-    
     if (type === 'thinking') {
         emoji.innerText = "🤔";
     } else if (type === 'flower') {
         emoji.innerText = "🌹";
         emoji.classList.add("blue-flower");
     }
-
     emoji.style.left = `${Math.random() * 100}vw`;
     emoji.style.fontSize = `${Math.random() * 30 + 25}px`;
     emoji.style.setProperty('--speed', `${Math.random() * 2 + 3}s`);
     emoji.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
-    
     effectsLayer.appendChild(emoji);
     setTimeout(() => emoji.remove(), 5000);
 }
@@ -241,9 +239,8 @@ function mostrarFinal() {
     document.getElementById("final-anchor").innerHTML = finalHTML;
     setTimeout(animarRosa, 100);
 
-    setTimeout(() => {
-        setInterval(() => spawnEmoji('flower'), 150);
-    }, 2000);
+    // INICIO INMEDIATO DE FLORES CELESTES
+    setInterval(() => spawnEmoji('flower'), 150);
 }
 
 function animarRosa() {
