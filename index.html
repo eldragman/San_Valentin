@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rosa Eterna - Versión Final Corregida</title>
+    <title>San Valentín 💘</title>
     <style>
         body {
             margin: 0;
@@ -11,153 +11,261 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, #ff99c8, #ff4e8a);
+            background: linear-gradient(-45deg, #ff4e8a, #ff99c8, #ff6fa5);
+            background-size: 400% 400%;
+            animation: fondo 12s ease infinite;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            color: white;
         }
 
-        /* CONTENEDOR PRINCIPAL */
-        .flower-case {
+        @keyframes fondo {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { text-align: center; width: 100%; z-index: 10; }
+        
+        /* TEXTO AGRANDADO SEGÚN INSTRUCCIÓN */
+        h1 { font-size: 55px; margin-bottom: 40px; min-height: 120px; text-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
+
+        button {
+            padding: 15px 45px;
+            font-size: 26px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 15px;
+            transition: 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        #yesBtn { background: white; color: #ff4e8a; }
+        #yesBtn:hover { transform: scale(1.1); }
+        #noBtn { background: #c2185b; color: white; position: absolute; z-index: 20; }
+
+        /* ANIMACIONES ORIGINALES */
+        .zoomIn { animation: zoom 1.2s ease forwards; }
+        @keyframes zoom {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .final-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: radial-gradient(circle at center, #ff6fa5, #ff4e8a);
+            z-index: 100;
+        }
+
+        /* --- DISEÑO DE LA ROSA (TAMAÑO AUMENTADO) --- */
+        .flower {
             position: relative;
-            width: 400px;
-            height: 600px;
+            width: 450px; /* Tamaño aumentado */
+            height: 550px;
             display: flex;
             justify-content: center;
             perspective: 1200px;
         }
 
-        /* CÚPULA DE CRISTAL NÍTIDA */
-        .glass-dome {
+        .glass {
             position: absolute;
-            width: 320px;
-            height: 450px;
-            border-radius: 160px 160px 40px 40px;
+            width: 350px;
+            height: 480px;
+            border-radius: 175px 175px 30px 30px;
             border: 2px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.1);
-            bottom: 80px;
-            z-index: 10;
+            z-index: 5;
+            bottom: 60px;
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        /* BASE SÓLIDA DELANTE DEL VIDRIO */
         .base {
             position: absolute;
-            width: 380px;
+            width: 400px;
             height: 70px;
             background: #1a0f0f;
             border-radius: 20px;
-            bottom: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            z-index: 40; /* Delante de todo */
+            bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            z-index: 30; /* Delante del vidrio */
             border-bottom: 10px solid #000;
         }
 
-        /* TALLO NÍTIDO */
         .stem {
             position: absolute;
-            width: 8px;
-            height: 250px;
+            width: 10px;
+            height: 280px; /* Más alto */
             background: linear-gradient(to right, #0a330c, #1b5e20, #0a330c);
-            bottom: 110px;
+            bottom: 100px;
             left: 50%;
-            margin-left: -4px;
-            z-index: 5;
+            margin-left: -5px;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            z-index: 6;
         }
 
-        /* HOJAS DIAGONALES CON NERVADURAS PRECISAS */
+        /* HOJAS CON ÁNGULO DE NERVADURA CORREGIDO */
         .leaf {
             position: absolute;
-            width: 70px;
+            width: 75px;
             height: 40px;
             background: #1b5e20;
             border-radius: 0 100% 0 100%;
-            box-shadow: inset 5px -5px 15px rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: 1.5s ease;
+            box-shadow: inset 5px -5px 15px rgba(0,0,0,0.3);
             overflow: hidden;
         }
 
-        /* Nervadura diagonal solicitada */
-        .leaf::before {
+        /* Línea verde oscuro con el mismo ángulo de la hoja */
+        .leaf::after {
             content: '';
             position: absolute;
-            top: 20%; left: -10%;
+            top: 48%; left: -10%;
             width: 120%; height: 4px;
             background: #052207;
-            transform: rotate(-15deg); /* Alineada con la diagonal de la hoja */
+            /* El ángulo se hereda visualmente al estar dentro de la hoja rotada */
         }
 
-        .leaf.left { left: -70px; bottom: 60px; transform: rotate(10deg); border-radius: 100% 0 100% 0; }
-        .leaf.left::before { transform: rotate(15deg); }
-        .leaf.right-low { left: 8px; bottom: 30px; transform: rotate(-40deg); }
-        .leaf.right-high { left: 8px; bottom: 100px; transform: rotate(-35deg); }
+        .leaf.n1 { left: 10px; bottom: 60px; transform: rotate(-45deg) scale(0); transform-origin: left bottom; }
+        .leaf.n2 { left: -75px; bottom: 120px; transform: rotate(15deg) scale(0); transform-origin: right bottom; border-radius: 100% 0 100% 0; }
+        .leaf.n3 { left: 10px; bottom: 180px; transform: rotate(-40deg) scale(0); transform-origin: left bottom; }
 
-        /* ROSA FRONDOSA (RELLENANDO VACÍOS) */
-        .rose-head {
+        .petal-container {
             position: absolute;
-            top: 210px;
-            width: 160px;
-            height: 140px;
-            z-index: 20;
+            top: 180px;
+            width: 180px;
+            height: 180px;
+            z-index: 10;
             transform-style: preserve-3d;
-            transform: rotateX(-15deg); /* Vista hacia el usuario */
+            transform: rotateX(-10deg);
         }
 
         .petal {
             position: absolute;
             left: 50%;
-            bottom: 20%;
+            bottom: 50%;
             transform-origin: bottom center;
-            background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 60%, #e1f5fe 100%);
-            border: 0.5px solid rgba(255,255,255,0.3);
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2);
+            opacity: 0;
+            background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 50%, #e1f5fe 100%);
+            border: 0.5px solid rgba(255,255,255,0.2);
+            transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Pétalos exteriores anchos para rellenar los vacíos laterales de tus líneas amarillas */
-        .p-outer { width: 130px; height: 110px; margin-left: -65px; border-radius: 50% 50% 40% 40%; }
-        
-        /* Pétalos medios para dar volumen */
-        .p-mid { width: 90px; height: 100px; margin-left: -45px; border-radius: 50%; z-index: 22; }
+        /* Pétalos anchos para rellenar vacíos */
+        .p-wide { width: 140px; height: 120px; margin-left: -70px; border-radius: 50% 50% 40% 40%; }
+        .p-mid { width: 100px; height: 110px; margin-left: -50px; border-radius: 50%; z-index: 12; }
+        .p-core { width: 55px; height: 85px; margin-left: -27px; border-radius: 50%; background: #013d66; z-index: 20; box-shadow: inset 0 0 15px #000; }
 
-        /* Núcleo central - Eliminada forma geométrica tosca */
-        .p-core { 
-            width: 50px; height: 70px; margin-left: -25px; border-radius: 50%; 
-            background: #013d66; /* Azul profundo nítido */
-            z-index: 30; 
-            box-shadow: inset 0 0 15px #000;
+        @keyframes respirar {
+            0%, 100% { transform: rotateX(-10deg) scale(1); }
+            50% { transform: rotateX(-10deg) scale(1.04); }
         }
-
-        @keyframes breathe {
-            0%, 100% { transform: rotateX(-15deg) scale(1); }
-            50% { transform: rotateX(-15deg) scale(1.03); }
-        }
-        
-        .rose-head { animation: breathe 5s infinite ease-in-out; }
     </style>
 </head>
 <body>
 
-    <div class="flower-case">
-        <div class="base"></div>
-        <div class="glass-dome"></div>
-        
-        <div class="stem">
-            <div class="leaf left"></div>
-            <div class="leaf right-low"></div>
-            <div class="leaf right-high"></div>
+<div class="container" id="main">
+    <h1 id="question" class="zoomIn">💘 ¿Quieres ser mi San Valentín? 💘</h1>
+    <button id="yesBtn">Sí 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<div id="final-anchor"></div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
+let etapa = 0;
+
+// LÓGICA DEL BOTÓN NO (No sale de la pantalla)
+function moverNo() {
+    const margin = 120;
+    const x = Math.max(margin, Math.min(window.innerWidth - noBtn.offsetWidth - margin, Math.random() * window.innerWidth));
+    const y = Math.max(margin, Math.min(window.innerHeight - noBtn.offsetHeight - margin, Math.random() * window.innerHeight));
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+}
+
+noBtn.addEventListener("mouseover", moverNo);
+noBtn.addEventListener("click", moverNo);
+
+// LÓGICA DE FLUJO CORREGIDA (Sin saltarse la 2da pregunta)
+yesBtn.addEventListener("click", () => {
+    if (etapa === 0) {
+        question.classList.remove("zoomIn");
+        void question.offsetWidth; // Reset animación
+        question.innerText = "😏 ¿Estás segura? A pesar que te haga renegar mucho";
+        question.classList.add("zoomIn");
+        etapa = 1;
+    } else {
+        mostrarFinal();
+    }
+});
+
+function mostrarFinal() {
+    document.getElementById("main").style.display = "none";
+    const finalHTML = `
+        <div class="final-screen">
+            <h1 class="zoomIn">😍 Sabía que dirías que sí 💍</h1>
+            <div class="flower" id="flower">
+                <div class="base"></div>
+                <div class="stem" id="stem">
+                    <div class="leaf n1" id="l1"></div>
+                    <div class="leaf n2" id="l2"></div>
+                    <div class="leaf n3" id="l3"></div>
+                </div>
+                <div class="petal-container" id="p-container">
+                    <div class="petal p-wide" style="transform: rotateY(0deg) rotateX(60deg) translateZ(25px);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(90deg) rotateX(60deg) translateZ(25px);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(180deg) rotateX(60deg) translateZ(25px);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(270deg) rotateX(60deg) translateZ(25px);"></div>
+                    
+                    <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(35deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(35deg) translateZ(15px);"></div>
+                    
+                    <div class="petal p-core" id="core" style="transform: rotateX(10deg);"></div>
+                </div>
+                <div class="glass"></div>
+            </div>
         </div>
+    `;
+    document.getElementById("final-anchor").innerHTML = finalHTML;
+    setTimeout(animarFlor, 100);
+}
 
-        <div class="rose-head">
-            <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(60deg) translateZ(20px);"></div>
-            <div class="petal p-outer" style="transform: rotateY(90deg) rotateX(60deg) translateZ(20px);"></div>
-            <div class="petal p-outer" style="transform: rotateY(180deg) rotateX(60deg) translateZ(20px);"></div>
-            <div class="petal p-outer" style="transform: rotateY(270deg) rotateX(60deg) translateZ(20px);"></div>
+function animarFlor() {
+    const stem = document.getElementById("stem");
+    const petals = document.querySelectorAll(".petal");
+    const leaves = [document.getElementById("l1"), document.getElementById("l2"), document.getElementById("l3")];
 
-            <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(40deg) translateZ(10px);"></div>
-            <div class="petal p-mid" style="transform: rotateY(135deg) rotateX(40deg) translateZ(10px);"></div>
-            <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(40deg) translateZ(10px);"></div>
-            <div class="petal p-mid" style="transform: rotateY(315deg) rotateX(40deg) translateZ(10px);"></div>
+    stem.style.transition = "2s ease-out";
+    stem.style.transform = "scaleY(1)";
 
-            <div class="petal p-core" style="transform: rotateX(10deg);"></div>
-        </div>
-    </div>
+    setTimeout(() => {
+        leaves.forEach(l => {
+            l.style.opacity = "1";
+            const rot = l.style.transform.split(' ')[0];
+            l.style.transform = `${rot} scale(1)`;
+        });
+    }, 1500);
+
+    petals.forEach((p, i) => {
+        setTimeout(() => { p.style.opacity = "1"; }, 2000 + (i * 150));
+    });
+
+    setTimeout(() => {
+        document.getElementById("p-container").style.animation = "respirar 5s infinite ease-in-out";
+    }, 3500);
+}
+</script>
 
 </body>
 </html>
