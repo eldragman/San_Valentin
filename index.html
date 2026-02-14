@@ -17,6 +17,7 @@
             font-family: Arial, sans-serif;
             overflow: hidden;
             color: white;
+            position: relative;
         }
 
         @keyframes fondo {
@@ -25,12 +26,12 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* CAPA DE EFECTOS: SIEMPRE EN EL FONDO */
+        /* CAPA DE EFECTOS: Delante del fondo (z-index: 2) */
         #effects-container {
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: 1; 
+            z-index: 2; 
         }
 
         .container { 
@@ -42,8 +43,6 @@
 
         h1 { 
             font-size: 55px; 
-            margin-bottom: 40px; 
-            min-height: 120px; 
             text-shadow: 3px 3px 15px rgba(0,0,0,0.4); 
             position: relative;
             z-index: 110;
@@ -56,7 +55,6 @@
             border-radius: 40px;
             cursor: pointer;
             margin: 15px;
-            transition: 0.3s;
             font-weight: bold;
             position: relative;
             z-index: 120;
@@ -65,10 +63,11 @@
         #yesBtn { background: white; color: #ff4e8a; }
         #noBtn { background: #c2185b; color: white; position: absolute; z-index: 130; }
 
-        /* ANIMACIONES DE EMOJIS */
+        /* ANIMACIONES */
         .floating-emoji {
             position: absolute;
             pointer-events: none;
+            z-index: 3;
             animation: floatUp var(--speed) linear forwards;
         }
 
@@ -81,11 +80,11 @@
             100% { transform: translateY(-20vh) rotate(var(--rot)); opacity: 0; }
         }
 
-        /* ESTRELLAS */
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
+            z-index: 2;
             animation: twinkle var(--d) infinite ease-in-out;
         }
 
@@ -103,31 +102,24 @@
             align-items: center;
             flex-direction: column;
             background: radial-gradient(circle at center, #ff6fa5, #ff4e8a);
-            z-index: 50; 
+            z-index: 10; /* Detrás de los emojis pero delante del fondo original */
         }
 
-        .final-screen h1 { z-index: 200; }
-
-        /* ROSA (ESTRUCTURA BLOQUEADA) */
-        .flower-case { position: relative; width: 400px; height: 600px; display: flex; justify-content: center; perspective: 1200px; z-index: 60; }
+        /* ROSA BLOQUEADA */
+        .flower-case { position: relative; width: 400px; height: 600px; display: flex; justify-content: center; perspective: 1200px; z-index: 20; }
         .glass-dome { position: absolute; width: 320px; height: 480px; border-radius: 160px 160px 40px 40px; border: 2px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.1); bottom: 80px; z-index: 10; }
         .base { position: absolute; width: 380px; height: 70px; background: #1a0f0f; border-radius: 20px; bottom: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); z-index: 40; border-bottom: 10px solid #000; }
         .stem { position: absolute; width: 10px; height: 310px; background: linear-gradient(to right, #0a330c, #1b5e20, #0a330c); bottom: 110px; left: 50%; margin-left: -5px; z-index: 5; transform-origin: bottom; transform: scaleY(0); }
-        .leaf { position: absolute; width: 90px; height: 50px; background: #1b5e20; box-shadow: inset 5px -5px 15px rgba(0,0,0,0.4); opacity: 0; transition: 1s; }
+        .leaf { position: absolute; width: 90px; height: 50px; background: #1b5e20; opacity: 0; transition: 1s; }
         .leaf.left { left: -90px; bottom: 80px; transform: rotate(10deg); border-radius: 100% 0 100% 0; }
         .leaf.right-low { left: 10px; bottom: 40px; transform: rotate(-40deg); border-radius: 0 100% 0 100%; }
         .leaf.right-high { left: 10px; bottom: 140px; transform: rotate(-35deg); border-radius: 0 100% 0 100%; }
         .rose-head { position: absolute; top: 130px; width: 220px; height: 190px; z-index: 20; transform-style: preserve-3d; transform: rotateX(-15deg); opacity: 0; }
-        .petal { position: absolute; left: 50%; bottom: 20%; transform-origin: bottom center; background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 60%, #e1f5fe 100%); border: 0.5px solid rgba(255,255,255,0.3); box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2); }
+        .petal { position: absolute; left: 50%; bottom: 20%; transform-origin: bottom center; background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 60%, #e1f5fe 100%); border: 0.5px solid rgba(255,255,255,0.3); }
         .p-outer { width: 170px; height: 140px; margin-left: -85px; border-radius: 50% 50% 40% 40%; }
         .p-mid { width: 120px; height: 130px; margin-left: -60px; border-radius: 50%; z-index: 22; }
-        .p-core { width: 65px; height: 90px; margin-left: -32.5px; border-radius: 50%; background: #013d66; z-index: 30; box-shadow: inset 0 0 15px #000; }
-        
-        @keyframes breathe {
-            0%, 100% { transform: rotateX(-15deg) scale(1); }
-            50% { transform: rotateX(-15deg) scale(1.03); }
-        }
-        
+        .p-core { width: 65px; height: 90px; margin-left: -32.5px; border-radius: 50%; background: #013d66; z-index: 30; }
+
         .zoomIn { animation: zoom 1.2s ease forwards; }
         @keyframes zoom { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     </style>
@@ -157,9 +149,8 @@ function initStars() {
     for (let i = 0; i < 150; i++) {
         const star = document.createElement("div");
         star.className = "star";
-        const size = Math.random() * 3 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
+        star.style.width = `2px`;
+        star.style.height = `2px`;
         star.style.left = `${Math.random() * 100}vw`;
         star.style.top = `${Math.random() * 100}vh`;
         star.style.setProperty('--d', `${Math.random() * 2 + 0.5}s`);
@@ -177,7 +168,7 @@ function spawnEmoji(type) {
         emoji.classList.add("blue-flower");
     }
     emoji.style.left = `${Math.random() * 100}vw`;
-    emoji.style.fontSize = `${Math.random() * 30 + 25}px`;
+    emoji.style.fontSize = `${Math.random() * 20 + 25}px`;
     emoji.style.setProperty('--speed', `${Math.random() * 2 + 3}s`);
     emoji.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
     effectsLayer.appendChild(emoji);
@@ -185,15 +176,13 @@ function spawnEmoji(type) {
 }
 
 function moverNo() {
-    const margin = 100;
-    const x = Math.max(margin, Math.min(window.innerWidth - noBtn.offsetWidth - margin, Math.random() * window.innerWidth));
-    const y = Math.max(margin, Math.min(window.innerHeight - noBtn.offsetHeight - margin, Math.random() * window.innerHeight));
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
     noBtn.style.left = `${x}px`;
     noBtn.style.top = `${y}px`;
 }
 
 noBtn.addEventListener("mouseover", moverNo);
-noBtn.addEventListener("click", moverNo);
 
 yesBtn.addEventListener("click", () => {
     if (etapa === 0) {
@@ -213,7 +202,7 @@ function mostrarFinal() {
     
     const finalHTML = `
         <div class="final-screen">
-            <h1 class="zoomIn">😍 Sabía que dirías que sí 💍</h1>
+            <h1 class="zoomIn" style="position:relative; z-index:200;">😍 Sabía que dirías que sí 💍</h1>
             <div class="flower-case">
                 <div class="base"></div>
                 <div class="glass-dome"></div>
@@ -224,13 +213,8 @@ function mostrarFinal() {
                 </div>
                 <div class="rose-head" id="rose">
                     <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(60deg) translateZ(30px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(90deg) rotateX(60deg) translateZ(30px);"></div>
                     <div class="petal p-outer" style="transform: rotateY(180deg) rotateX(60deg) translateZ(30px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(270deg) rotateX(60deg) translateZ(30px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(40deg) translateZ(15px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(135deg) rotateX(40deg) translateZ(15px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(40deg) translateZ(15px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(315deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(90deg) rotateX(40deg) translateZ(15px);"></div>
                     <div class="petal p-core" style="transform: rotateX(10deg);"></div>
                 </div>
             </div>
@@ -239,7 +223,7 @@ function mostrarFinal() {
     document.getElementById("final-anchor").innerHTML = finalHTML;
     setTimeout(animarRosa, 100);
 
-    // INICIO INMEDIATO DE FLORES CELESTES
+    // INICIO INSTANTÁNEO
     setInterval(() => spawnEmoji('flower'), 150);
 }
 
@@ -252,7 +236,6 @@ function animarRosa() {
     setTimeout(() => {
         rose.style.transition = "1.5s";
         rose.style.opacity = "1";
-        rose.style.animation = "breathe 4s infinite ease-in-out";
         leaves.forEach(l => l.style.opacity = "1");
     }, 1800);
 }
