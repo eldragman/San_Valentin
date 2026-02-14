@@ -76,38 +76,38 @@
             border: 2px solid rgba(255, 255, 255, 0.4);
             z-index: 5;
             bottom: 60px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .base {
             position: absolute;
             width: 360px;
-            height: 60px;
+            height: 65px;
             background: #2c1a1a;
-            border-radius: 15px;
+            border-radius: 20px;
             bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            z-index: 25; 
-            border-bottom: 5px solid #1a0f0f;
+            z-index: 30; 
+            border-bottom: 8px solid #1a0f0f;
         }
 
         .stem {
             position: absolute;
-            width: 8px;
-            height: 220px;
+            width: 10px;
+            height: 230px;
             background: linear-gradient(to right, #1b5e20, #2e7d32, #1b5e20);
-            bottom: 90px;
+            bottom: 95px;
             left: 50%;
-            margin-left: -4px;
+            margin-left: -5px;
             transform-origin: bottom;
             transform: scaleY(0);
             z-index: 6;
         }
 
-        /* HOJAS CON NERVIADURAS E INCLINACIÓN DIAGONAL */
+        /* HOJAS MEJORADAS: DIAGONALES HACIA ARRIBA CON NERVADURAS */
         .leaf {
             position: absolute;
-            width: 55px;
+            width: 65px;
             height: 35px;
             background: #2e7d32;
             border-radius: 0 100% 0 100%;
@@ -116,30 +116,31 @@
             box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        /* Línea de nervadura central */
+        
+        /* Nervadura diagonal */
         .leaf::after {
             content: '';
             position: absolute;
-            top: 50%; left: 0;
-            width: 100%; height: 2px;
+            top: 45%; left: 0;
+            width: 120%; height: 3px;
             background: #1b5e20;
-            transform: rotate(-15deg);
+            transform: rotate(-10deg);
         }
 
-        .leaf.n1 { left: 8px; bottom: 50px; transform: rotate(-50deg) scale(0); transform-origin: left; }
-        .leaf.n2 { left: -55px; bottom: 85px; transform: rotate(10deg) scale(0); transform-origin: right; border-radius: 100% 0 100% 0; }
-        .leaf.n2::after { transform: rotate(15deg); }
-        .leaf.n3 { left: 8px; bottom: 120px; transform: rotate(-45deg) scale(0); transform-origin: left; }
+        .leaf.n1 { left: 10px; bottom: 40px; transform: rotate(-45deg) scale(0); transform-origin: left bottom; }
+        .leaf.n2 { left: -65px; bottom: 80px; transform: rotate(15deg) scale(0); transform-origin: right bottom; border-radius: 100% 0 100% 0; }
+        .leaf.n2::after { transform: rotate(10deg); }
+        .leaf.n3 { left: 10px; bottom: 120px; transform: rotate(-40deg) scale(0); transform-origin: left bottom; }
 
-        /* NÚCLEO Y PÉTALOS MEJORADOS */
+        /* PETALOS: RELLENANDO VACÍOS (Indicación líneas amarillas) */
         .petal-container {
             position: absolute;
-            top: 190px;
-            width: 120px;
-            height: 120px;
+            top: 200px;
+            width: 150px;
+            height: 150px;
             z-index: 10;
             transform-style: preserve-3d;
-            transform: rotateX(-15deg);
+            transform: rotateX(-10deg);
         }
 
         .petal {
@@ -149,34 +150,33 @@
             transform-origin: bottom center;
             opacity: 0;
             transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 40%, #e1f5fe 100%);
+            background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 50%, #e1f5fe 100%);
             border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Capas de diseño para más realismo */
-        .p-outer { width: 100px; height: 120px; margin-left: -50px; border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; z-index: 11; }
-        .p-mid { width: 80px; height: 100px; margin-left: -40px; border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; z-index: 12; }
-        .p-inner { width: 50px; height: 75px; margin-left: -25px; border-radius: 40% 40% 50% 50%; z-index: 14; 
-                   background: radial-gradient(circle at 50% 100%, #01579b, #0288d1); }
+        /* Pétalos laterales anchos para cubrir los vacíos indicados */
+        .p-wide { width: 120px; height: 110px; margin-left: -60px; border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%; }
+        .p-medium { width: 90px; height: 100px; margin-left: -45px; border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%; }
+        .p-center { width: 55px; height: 80px; margin-left: -27px; border-radius: 40% 40% 50% 50%; z-index: 15; 
+                    background: radial-gradient(circle at 50% 100%, #01579b, #0288d1); }
 
-        /* EL NÚCLEO CENTRAL OSCURO */
         .core-dark {
             position: absolute;
-            width: 30px;
+            width: 35px;
             height: 45px;
             background: #003a61;
-            border-radius: 50% 50% 45% 45%;
+            border-radius: 50%;
             left: 50%;
-            margin-left: -15px;
+            margin-left: -17px;
             bottom: 50%;
             opacity: 0;
-            z-index: 15;
-            box-shadow: inset 0 0 10px #000;
+            z-index: 20;
+            box-shadow: inset 0 0 12px #000;
         }
 
         @keyframes respirar {
-            0%, 100% { transform: rotateX(-15deg) scale(1); }
-            50% { transform: rotateX(-15deg) scale(1.04); }
+            0%, 100% { transform: rotateX(-10deg) scale(1); }
+            50% { transform: rotateX(-10deg) scale(1.04); }
         }
     </style>
 </head>
@@ -234,17 +234,19 @@ function mostrarFinal() {
                     <div class="leaf n3" id="l3"></div>
                 </div>
                 <div class="petal-container" id="p-container">
-                    <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(50deg) translateZ(15px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(90deg) rotateX(50deg) translateZ(15px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(180deg) rotateX(50deg) translateZ(15px);"></div>
-                    <div class="petal p-outer" style="transform: rotateY(270deg) rotateX(50deg) translateZ(15px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(30deg) translateZ(10px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(135deg) rotateX(30deg) translateZ(10px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(30deg) translateZ(10px);"></div>
-                    <div class="petal p-mid" style="transform: rotateY(315deg) rotateX(30deg) translateZ(10px);"></div>
-                    <div class="petal p-inner" style="transform: rotateY(0deg) rotateX(15deg);"></div>
-                    <div class="petal p-inner" style="transform: rotateY(120deg) rotateX(15deg);"></div>
-                    <div class="petal p-inner" style="transform: rotateY(240deg) rotateX(15deg);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(0deg) rotateX(60deg) translateZ(20px);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(90deg) rotateX(60deg) translateZ(20px);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(180deg) rotateX(60deg) translateZ(20px);"></div>
+                    <div class="petal p-wide" style="transform: rotateY(270deg) rotateX(60deg) translateZ(20px);"></div>
+                    
+                    <div class="petal p-medium" style="transform: rotateY(45deg) rotateX(40deg) translateZ(10px);"></div>
+                    <div class="petal p-medium" style="transform: rotateY(135deg) rotateX(40deg) translateZ(10px);"></div>
+                    <div class="petal p-medium" style="transform: rotateY(225deg) rotateX(40deg) translateZ(10px);"></div>
+                    <div class="petal p-medium" style="transform: rotateY(315deg) rotateX(40deg) translateZ(10px);"></div>
+                    
+                    <div class="petal p-center" style="transform: rotateY(0deg) rotateX(20deg);"></div>
+                    <div class="petal p-center" style="transform: rotateY(120deg) rotateX(20deg);"></div>
+                    <div class="petal p-center" style="transform: rotateY(240deg) rotateX(20deg);"></div>
                     <div class="core-dark" id="core"></div>
                 </div>
                 <div class="glass"></div>
@@ -275,7 +277,7 @@ function animarRosa() {
     petals.forEach((petal, index) => {
         setTimeout(() => {
             petal.style.opacity = "1";
-        }, 2200 + (index * 150));
+        }, 2200 + (index * 120));
     });
 
     setTimeout(() => {
