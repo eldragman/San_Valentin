@@ -7,39 +7,57 @@
 <style>
 body{
   margin:0;
-  font-family: 'Arial', sans-serif;
-  text-align:center;
+  font-family: Arial, sans-serif;
+  background:#ffd6eb;
   overflow:hidden;
-  background:#ffe6f0;
+  text-align:center;
 }
 
-/* Fondo rosado para preguntas */
+/* Fondo animado */
+#background{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:0;
+}
+
+/* Tarjetas */
 .card{
-  background:linear-gradient(145deg,#ffb6d9,#ff99cc);
-  padding:40px;
-  border-radius:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  position:relative;
+  z-index:2;
+  background:linear-gradient(145deg,#ff9ecf,#ff6fb0);
+  padding:50px;
+  border-radius:30px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
   width:80%;
   max-width:700px;
   margin:120px auto;
-  position:relative;
-  z-index:10;
+  animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
 }
 
 h1{
-  font-size:48px;
-  color:#fff;
+  font-size:50px;
+  color:white;
   margin-bottom:40px;
 }
 
+/* Botones */
 .buttons{
   display:flex;
   justify-content:center;
   gap:40px;
+  position:relative;
 }
 
 button{
-  font-size:26px;
+  font-size:28px;
   padding:15px 40px;
   border:none;
   border-radius:15px;
@@ -47,122 +65,121 @@ button{
   transition:0.3s;
 }
 
-#yes{
-  background:#ff4d6d;
+#yes,#yes2{
+  background:#ff3366;
   color:white;
 }
 
-#no{
-  background:#999;
+#no,#no2{
+  background:#555;
   color:white;
   position:relative;
 }
 
-/* Animaciones de fondo */
+/* Fondo flotante */
 .floating{
   position:absolute;
-  font-size:30px;
-  animation: floatUp 6s linear infinite;
-  opacity:0.8;
+  font-size:28px;
+  animation:floatUp 6s linear infinite;
 }
 
 @keyframes floatUp{
-  0%{transform:translateY(100vh) scale(0.5); opacity:0;}
+  0%{transform:translateY(100vh); opacity:0;}
   50%{opacity:1;}
-  100%{transform:translateY(-10vh) scale(1.2); opacity:0;}
+  100%{transform:translateY(-10vh); opacity:0;}
 }
 
 /* Rosa */
-
 .rose-container{
-  position:absolute;
+  position:fixed;
   bottom:0;
   left:50%;
   transform:translateX(-50%);
   display:none;
+  z-index:3;
   animation:fadeIn 2s ease forwards;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
 }
 
 /* Tallo */
 .stem{
-  width:12px;
-  height:250px;
-  background:linear-gradient(#0b6623,#145214);
+  width:14px;
+  height:260px;
+  background:linear-gradient(#0f7a2e,#0a4d1f);
   margin:0 auto;
   border-radius:10px;
-  position:relative;
 }
 
 /* Base */
 .base{
-  width:120px;
-  height:40px;
-  background:#1a1a1a;
+  width:130px;
+  height:45px;
+  background:#111;
   border-radius:50%;
   margin:0 auto;
   margin-top:-10px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.5);
+  box-shadow:0 10px 20px rgba(0,0,0,0.6);
 }
 
-/* Protección exterior */
+/* Cúpula */
 .glass{
-  width:220px;
-  height:300px;
-  border:3px solid rgba(255,255,255,0.5);
-  border-radius:120px 120px 0 0;
+  width:240px;
+  height:320px;
+  border:3px solid rgba(255,255,255,0.4);
+  border-radius:130px 130px 0 0;
   position:absolute;
-  bottom:40px;
+  bottom:45px;
   left:50%;
   transform:translateX(-50%);
-  backdrop-filter:blur(6px);
+  backdrop-filter:blur(4px);
 }
 
-/* Pétalos más puntiagudos */
+/* Flor */
+.flower{
+  position:absolute;
+  bottom:260px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+}
+
+/* Pétalos puntiagudos */
 .petal{
+  position:absolute;
   width:90px;
   height:130px;
-  background:radial-gradient(circle at 50% 30%,#ff6fa5,#b3003c);
-  position:absolute;
-  border-radius:50% 50% 60% 60%;
-  transform-origin:bottom center;
+  background:radial-gradient(circle at 50% 30%,#ff5c99,#990033);
   clip-path:polygon(50% 0%, 90% 35%, 75% 100%, 25% 100%, 10% 35%);
+  transform-origin:bottom center;
   box-shadow:0 10px 25px rgba(0,0,0,0.6);
 }
 
-/* Posiciones pétalos */
 .p1{transform:rotate(0deg);}
-.p2{transform:rotate(40deg);}
-.p3{transform:rotate(-40deg);}
-.p4{transform:rotate(80deg);}
-.p5{transform:rotate(-80deg);}
-.p6{transform:rotate(120deg);}
-.p7{transform:rotate(-120deg);}
+.p2{transform:rotate(45deg);}
+.p3{transform:rotate(-45deg);}
+.p4{transform:rotate(90deg);}
+.p5{transform:rotate(-90deg);}
+.p6{transform:rotate(135deg);}
+.p7{transform:rotate(-135deg);}
 
-/* Centro */
 .center{
+  position:absolute;
   width:50px;
   height:50px;
   background:radial-gradient(circle,#ff99bb,#80002a);
   border-radius:50%;
-  position:absolute;
-  top:60px;
-  left:50%;
-  transform:translateX(-50%);
+  top:50px;
+  left:-25px;
   box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
+
 </style>
 </head>
-
 <body>
 
 <div id="background"></div>
 
-<div class="card" id="question1">
+<div class="card" id="q1">
   <h1>¿Quieres estar conmigo? ⭐</h1>
   <div class="buttons">
     <button id="yes">Sí</button>
@@ -170,7 +187,7 @@ button{
   </div>
 </div>
 
-<div class="card" id="question2" style="display:none;">
+<div class="card" id="q2" style="display:none;">
   <h1>¿Estás segura? 🤔</h1>
   <div class="buttons">
     <button id="yes2">Sí</button>
@@ -186,7 +203,7 @@ button{
   <div class="glass"></div>
   <div class="stem"></div>
 
-  <div style="position:absolute; bottom:250px; left:50%; transform:translateX(-50%);">
+  <div class="flower">
     <div class="petal p1"></div>
     <div class="petal p2"></div>
     <div class="petal p3"></div>
@@ -202,7 +219,7 @@ button{
 
 <script>
 
-/* Fondo estrellas primera pregunta */
+/* Fondo animado */
 function createFloating(symbol){
   const el = document.createElement("div");
   el.className="floating";
@@ -210,48 +227,43 @@ function createFloating(symbol){
   el.style.left=Math.random()*100+"vw";
   el.style.animationDuration=(4+Math.random()*3)+"s";
   document.getElementById("background").appendChild(el);
-  setTimeout(()=>el.remove(),7000);
+  setTimeout(()=>el.remove(),6000);
 }
 
 setInterval(()=>{
-  if(document.getElementById("question1").style.display!="none"){
+  if(q1.style.display!="none"){
     createFloating("⭐");
   }
 },500);
 
 setInterval(()=>{
-  if(document.getElementById("question2").style.display!="none"){
+  if(q2.style.display!="none"){
     createFloating("🤔");
   }
 },600);
 
-/* Botón No se mueve */
-function moveButton(btn){
+/* Botón NO se mueve */
+function move(btn){
   btn.style.position="absolute";
-  btn.style.left=Math.random()*70+"%";
-  btn.style.top=Math.random()*70+"%";
+  btn.style.left=Math.random()*60+"%";
+  btn.style.top=Math.random()*60+"%";
 }
 
-document.getElementById("no").onclick=function(){
-  moveButton(this);
+no.onclick=function(){ move(this); }
+no2.onclick=function(){ move(this); }
+
+/* Flujo */
+yes.onclick=function(){
+  q1.style.display="none";
+  q2.style.display="block";
 }
 
-document.getElementById("no2").onclick=function(){
-  moveButton(this);
-}
-
-/* Flujo preguntas */
-document.getElementById("yes").onclick=function(){
-  document.getElementById("question1").style.display="none";
-  document.getElementById("question2").style.display="block";
-}
-
-document.getElementById("yes2").onclick=function(){
-  document.getElementById("question2").style.display="none";
-  document.getElementById("final").style.display="block";
+yes2.onclick=function(){
+  q2.style.display="none";
+  final.style.display="block";
 
   setTimeout(()=>{
-    document.getElementById("rose").style.display="block";
+    rose.style.display="block";
   },2000);
 }
 
