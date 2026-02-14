@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>San Valentín 💘</title>
     <style>
-        :root {
-            /* Definimos escalas basadas en el tamaño de la pantalla */
-            --base-size: clamp(0.6, 1vw, 1.2); 
-            --title-size: clamp(2rem, 8vw, 3.5rem);
-        }
-
         body {
             margin: 0;
             height: 100vh;
@@ -20,7 +14,7 @@
             background: linear-gradient(-45deg, #ff4e8a, #ff99c8, #ff6fa5);
             background-size: 400% 400%;
             animation: fondo 12s ease infinite;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             overflow: hidden;
             color: white;
         }
@@ -31,60 +25,68 @@
             100% { background-position: 0% 50%; }
         }
 
+        .container { text-align: center; width: 100%; z-index: 10; position: relative; }
+        h1 { font-size: 55px; margin-bottom: 40px; min-height: 120px; text-shadow: 2px 2px 15px rgba(0,0,0,0.3); }
+
+        button {
+            padding: 15px 45px;
+            font-size: 26px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 15px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        #yesBtn { background: white; color: #ff4e8a; }
+        
+        /* Ajuste inicial del botón No */
+        #noBtn { 
+            background: #c2185b; 
+            color: white; 
+            position: fixed; /* Cambiado a fixed para control total del viewport */
+            z-index: 200; 
+            transition: left 0.2s ease, top 0.2s ease; /* Suaviza el salto */
+        }
+
         #effects-container {
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: 5; /* Detrás del texto pero delante del fondo */
+            z-index: 50;
         }
 
-        .container { 
-            text-align: center; 
-            width: 90%; 
-            max-width: 800px;
-            z-index: 100; 
-            position: relative; 
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle var(--d) infinite ease-in-out;
         }
 
-        h1 { 
-            font-size: var(--title-size); 
-            margin-bottom: 2rem; 
-            min-height: 100px; 
-            text-shadow: 2px 4px 10px rgba(0,0,0,0.2);
-            line-height: 1.2;
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.8); opacity: 1; box-shadow: 0 0 12px white; }
         }
 
-        .btn-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            min-height: 80px;
+        .floating-emoji {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp var(--speed) linear forwards;
         }
 
-        button {
-            padding: clamp(10px, 2vh, 20px) clamp(20px, 4vw, 50px);
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .blue-flower {
+            filter: hue-rotate(190deg) brightness(1.2);
         }
 
-        #yesBtn { background: white; color: #ff4e8a; z-index: 110; }
-        #yesBtn:hover { transform: scale(1.1); }
-
-        #noBtn { 
-            background: #c2185b; 
-            color: white; 
-            position: fixed; /* Necesario para el salto aleatorio */
-            z-index: 200; 
-            transition: left 0.2s ease, top 0.2s ease;
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(var(--rot)); opacity: 0; }
         }
 
-        /* --- ESTILOS DE LA ROSA (RESPONSIVOS) --- */
         .final-screen {
             position: fixed;
             inset: 0;
@@ -93,93 +95,24 @@
             align-items: center;
             flex-direction: column;
             background: radial-gradient(circle at center, #ff6fa5, #ff4e8a);
-            z-index: 300;
+            z-index: 100;
         }
 
-        .flower-case { 
-            position: relative; 
-            width: 80vw; 
-            max-width: 350px; 
-            height: 60vh; 
-            display: flex; 
-            justify-content: center; 
-            perspective: 1000px;
-        }
-
-        .glass-dome { 
-            position: absolute; 
-            width: 100%; 
-            height: 100%; 
-            border-radius: 150px 150px 20px 20px; 
-            border: 2px solid rgba(255, 255, 255, 0.4); 
-            background: rgba(255, 255, 255, 0.1); 
-            bottom: 20px; 
-            z-index: 10; 
-            backdrop-filter: blur(1px);
-        }
-
-        .base { 
-            position: absolute; 
-            width: 110%; 
-            height: 40px; 
-            background: #1a0f0f; 
-            border-radius: 20px; 
-            bottom: 0; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
-            z-index: 40; 
-        }
-
-        .stem { 
-            position: absolute; 
-            width: 8px; 
-            height: 60%; 
-            background: linear-gradient(to right, #0a330c, #1b5e20); 
-            bottom: 40px; 
-            z-index: 5; 
-            transform-origin: bottom; 
-            transform: scaleY(0); 
-        }
-
-        .rose-head { 
-            position: absolute; 
-            top: 15%; 
-            width: 150px; 
-            height: 150px; 
-            z-index: 20; 
-            opacity: 0; 
-        }
-
-        .petal { 
-            position: absolute; 
-            left: 50%; 
-            bottom: 30%; 
-            transform-origin: bottom center; 
-            background: radial-gradient(circle, #4fc3f7, #0288d1);
-            border-radius: 50% 50% 40% 40%;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        .p-outer { width: 120px; height: 100px; margin-left: -60px; }
-        .p-core { width: 50px; height: 70px; margin-left: -25px; background: #013d66; }
-
-        /* --- ANIMACIONES --- */
-        .floating-emoji {
-            position: absolute;
-            pointer-events: none;
-            animation: floatUp var(--speed) linear forwards;
-            z-index: 6;
-        }
-
-        .blue-flower { filter: hue-rotate(190deg); }
-
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
-        }
-
-        .zoomIn { animation: zoom 0.8s ease-out forwards; }
+        .flower-case { position: relative; width: 400px; height: 600px; display: flex; justify-content: center; perspective: 1200px; }
+        .glass-dome { position: absolute; width: 320px; height: 480px; border-radius: 160px 160px 40px 40px; border: 2px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.1); bottom: 80px; z-index: 10; }
+        .base { position: absolute; width: 380px; height: 70px; background: #1a0f0f; border-radius: 20px; bottom: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); z-index: 40; border-bottom: 10px solid #000; }
+        .stem { position: absolute; width: 10px; height: 310px; background: linear-gradient(to right, #0a330c, #1b5e20, #0a330c); bottom: 110px; left: 50%; margin-left: -5px; z-index: 5; transform-origin: bottom; transform: scaleY(0); }
+        .leaf { position: absolute; width: 90px; height: 50px; background: #1b5e20; box-shadow: inset 5px -5px 15px rgba(0,0,0,0.4); opacity: 0; transition: 1s; }
+        .leaf.left { left: -90px; bottom: 80px; transform: rotate(10deg); border-radius: 100% 0 100% 0; }
+        .leaf.right-low { left: 10px; bottom: 40px; transform: rotate(-40deg); border-radius: 0 100% 0 100%; }
+        .leaf.right-high { left: 10px; bottom: 140px; transform: rotate(-35deg); border-radius: 0 100% 0 100%; }
+        .rose-head { position: absolute; top: 130px; width: 220px; height: 190px; z-index: 20; transform-style: preserve-3d; transform: rotateX(-15deg); opacity: 0; }
+        .petal { position: absolute; left: 50%; bottom: 20%; transform-origin: bottom center; background: radial-gradient(circle at 50% 80%, #0288d1, #4fc3f7 60%, #e1f5fe 100%); border: 0.5px solid rgba(255,255,255,0.3); box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2); }
+        .p-outer { width: 170px; height: 140px; margin-left: -85px; border-radius: 50% 50% 40% 40%; }
+        .p-mid { width: 120px; height: 130px; margin-left: -60px; border-radius: 50%; z-index: 22; }
+        .p-core { width: 65px; height: 90px; margin-left: -32.5px; border-radius: 50%; background: #013d66; z-index: 30; box-shadow: inset 0 0 15px #000; }
+        
+        .zoomIn { animation: zoom 1.2s ease forwards; }
         @keyframes zoom { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
@@ -189,7 +122,7 @@
 
 <div class="container" id="main">
     <h1 id="question" class="zoomIn">💘 ¿Quieres ser mi San Valentín? 💘</h1>
-    <div class="btn-wrapper">
+    <div style="position: relative; display: inline-block; width: 100%; height: 100px;">
         <button id="yesBtn">Sí 💕</button>
         <button id="noBtn">No 😢</button>
     </div>
@@ -198,99 +131,123 @@
 <div id="final-anchor"></div>
 
 <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const question = document.getElementById("question");
-    const effectsLayer = document.getElementById("effects-container");
-    let etapa = 0;
-    let emojiInterval;
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
+const effectsLayer = document.getElementById("effects-container");
+let etapa = 0;
+let emojiInterval;
 
-    // Colocar el botón No inicialmente cerca del Yes
-    function initNoBtn() {
-        const yesRect = yesBtn.getBoundingClientRect();
-        noBtn.style.left = (yesRect.right + 20) + "px";
-        noBtn.style.top = yesRect.top + "px";
+// Posicionamiento inicial centrado para el "No"
+function resetNoPos() {
+    noBtn.style.position = "static";
+}
+
+function moverNo() {
+    noBtn.style.position = "fixed";
+    const padding = 20; // Margen de seguridad para que no toque el borde
+    
+    // Obtenemos dimensiones del botón y la ventana
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const winWidth = window.innerWidth;
+    const winHeight = window.innerHeight;
+
+    // Calculamos posiciones máximas permitidas
+    const maxX = winWidth - btnWidth - padding;
+    const maxY = winHeight - btnHeight - padding;
+
+    // Generamos posición aleatoria dentro de los límites
+    const randomX = Math.floor(Math.random() * (maxX - padding) + padding);
+    const randomY = Math.floor(Math.random() * (maxY - padding) + padding);
+
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
+}
+
+noBtn.addEventListener("mouseover", moverNo);
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moverNo();
+});
+
+yesBtn.addEventListener("click", () => {
+    if (etapa === 0) {
+        question.innerText = "¿Estás segura? A pesar que te haga renegar mucho 😅";
+        etapa = 1;
+        effectsLayer.innerHTML = ''; 
+        emojiInterval = setInterval(() => spawnEmoji('thinking'), 100); 
+    } else {
+        clearInterval(emojiInterval);
+        noBtn.style.display = "none"; // Desaparece el No al ganar
+        mostrarFinal();
     }
-    window.onload = initNoBtn;
+});
 
-    function moverNo() {
-        const padding = 50;
-        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+function spawnEmoji(type) {
+    const emoji = document.createElement("div");
+    emoji.className = "floating-emoji";
+    emoji.innerText = type === 'thinking' ? "🤔" : "🌹";
+    if (type === 'flower') emoji.classList.add("blue-flower");
 
-        const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-        const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+    emoji.style.left = `${Math.random() * 100}vw`;
+    emoji.style.fontSize = `${Math.random() * 30 + 25}px`;
+    emoji.style.setProperty('--speed', `${Math.random() * 2 + 3}s`);
+    emoji.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
+    
+    effectsLayer.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 5000);
+}
 
-        noBtn.style.left = randomX + "px";
-        noBtn.style.top = randomY + "px";
-    }
-
-    noBtn.addEventListener("mouseover", moverNo);
-    noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); moverNo(); });
-
-    yesBtn.addEventListener("click", () => {
-        if (etapa === 0) {
-            question.innerText = "¿Estás segura? Mira que soy bien renegón... 😅";
-            etapa = 1;
-            clearInterval(emojiInterval);
-            emojiInterval = setInterval(() => spawnEmoji('🤔'), 200);
-        } else {
-            clearInterval(emojiInterval);
-            mostrarFinal();
-        }
-    });
-
-    function spawnEmoji(char) {
-        const emoji = document.createElement("div");
-        emoji.className = "floating-emoji";
-        if (char === '🌹') emoji.classList.add("blue-flower");
-        emoji.innerText = char;
-
-        emoji.style.left = Math.random() * 100 + "vw";
-        emoji.style.fontSize = (Math.random() * 20 + 20) + "px";
-        emoji.style.setProperty('--speed', (Math.random() * 3 + 3) + "s");
-        
-        effectsLayer.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 6000);
-    }
-
-    function mostrarFinal() {
-        document.getElementById("main").style.display = "none";
-        noBtn.style.display = "none";
-        
-        const finalHTML = `
-            <div class="final-screen">
-                <h1 class="zoomIn">😍 ¡Sabía que dirías que sí! ❤️</h1>
-                <div class="flower-case">
-                    <div class="base"></div>
-                    <div class="glass-dome"></div>
-                    <div class="stem" id="stem"></div>
-                    <div class="rose-head" id="rose">
-                        <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(45deg)"></div>
-                        <div class="petal p-outer" style="transform: rotateY(120deg) rotateX(45deg)"></div>
-                        <div class="petal p-outer" style="transform: rotateY(240deg) rotateX(45deg)"></div>
-                        <div class="petal p-core"></div>
-                    </div>
+function mostrarFinal() {
+    document.getElementById("main").style.display = "none";
+    effectsLayer.innerHTML = ''; 
+    
+    const finalHTML = `
+        <div class="final-screen">
+            <h1 class="zoomIn">😍 Sabía que dirías que sí ❤️</h1>
+            <div class="flower-case">
+                <div class="base"></div>
+                <div class="glass-dome"></div>
+                <div class="stem" id="stem">
+                    <div class="leaf left" id="l1"></div>
+                    <div class="leaf right-low" id="l2"></div>
+                    <div class="leaf right-high" id="l3"></div>
+                </div>
+                <div class="rose-head" id="rose">
+                    <div class="petal p-outer" style="transform: rotateY(0deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(90deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(180deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-outer" style="transform: rotateY(270deg) rotateX(60deg) translateZ(30px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(45deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(135deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(225deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-mid" style="transform: rotateY(315deg) rotateX(40deg) translateZ(15px);"></div>
+                    <div class="petal p-core" style="transform: rotateX(10deg);"></div>
                 </div>
             </div>
-        `;
-        document.getElementById("final-anchor").innerHTML = finalHTML;
-        
-        // Animación de la rosa
-        setTimeout(() => {
-            const stem = document.getElementById("stem");
-            const rose = document.getElementById("rose");
-            stem.style.transition = "2s ease-out";
-            stem.style.transform = "scaleY(1)";
-            setTimeout(() => {
-                rose.style.transition = "1.5s";
-                rose.style.opacity = "1";
-            }, 1500);
-        }, 100);
+        </div>
+    `;
+    document.getElementById("final-anchor").innerHTML = finalHTML;
+    setTimeout(animarRosa, 100);
 
-        // Lluvia de rosas instantánea
-        setInterval(() => spawnEmoji('🌹'), 150);
-    }
+    setTimeout(() => {
+        setInterval(() => spawnEmoji('flower'), 150);
+    }, 2000);
+}
+
+function animarRosa() {
+    const stem = document.getElementById("stem");
+    const rose = document.getElementById("rose");
+    const leaves = [document.getElementById("l1"), document.getElementById("l2"), document.getElementById("l3")];
+    stem.style.transition = "2s ease-out";
+    stem.style.transform = "scaleY(1)";
+    setTimeout(() => {
+        rose.style.transition = "1.5s";
+        rose.style.opacity = "1";
+        leaves.forEach(l => l.style.opacity = "1");
+    }, 1800);
+}
 </script>
 </body>
 </html>
